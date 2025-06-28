@@ -7,7 +7,6 @@ import sys
 import configs as cfg
 #import text_editor
 import viz_window
-from Agentic_AI.tracer_compiler import build_animation_frames, parse_function_calls 
 
 # Pygame Initialization
 pygame.init()
@@ -31,14 +30,11 @@ text_coords = [0, 30]  # X, Y coordinates for text rendering
 
 # Initialize Game Variables
 code = [""]
+current_frame_index = 0
 
 # Initialize Surfaces
 visualization_window = viz_window.create_viz_window(cfg.GREEN)
 
-#Build animation frames
-animation_frames = build_animation_frames()
-frame_index = 0
-number_of_animation_frames = len(animation_frames)
 
 print(animation_frames)
 
@@ -73,12 +69,8 @@ while running:
                 print("Down arrow key pressed")
             elif event.key == pygame.K_LEFT:
                 print("Left arrow key pressed")
-                #Go backward in animation frames
-                frame_index = (frame_index - 1) % number_of_animation_frames
             elif event.key == pygame.K_RIGHT:
                 print("Right arrow key pressed")
-                #Go forward in animation frames
-                frame_index = (frame_index + 1) % number_of_animation_frames
             elif event.key == pygame.K_RETURN:
                 print("Enter key pressed")
             elif event.key == pygame.K_BACKSPACE:
@@ -106,8 +98,6 @@ while running:
     screen.fill(cfg.WHITE)
 
     # Remaking and drawing surface
-    current_frame = animation_frames[frame_index]
-    parse_function_calls(visualization_window, current_frame)
     
 
     # Flipping the display

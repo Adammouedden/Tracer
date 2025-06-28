@@ -13,6 +13,7 @@ import viz_window
 from buttons import all_buttons
 from Agentic_AI.tracer_compiler import build_animation_frames, parse_function_calls
 import basic_tiling_manager
+import shapes
 
 # Pygame Initialization
 pygame.init()
@@ -70,6 +71,8 @@ while running:
     screen.blit(visualization_window, (cfg.VIZ_WINDOW_STARTING_COORDINATES))
     visualization_window.blit(text_window, (0,cfg.VIZ_WINDOW_HEIGHT))
     text_window.fill(cfg.BLUE)
+
+    sh
 
     # Flipping the display
     pygame.display.update()

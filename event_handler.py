@@ -97,7 +97,7 @@ def handle_events(event, running, caps_lock, frame_index, number_of_animation_fr
                 pasted_text_length = len(pasted_text)
 
                 # Insert the pasted text at the cursor position
-                code[cursor_pos[1]] = pasted_text
+                code[cursor_pos[0]] = code[cursor_pos[0]][:cursor_pos[1]] + pasted_text + code[cursor_pos[0]][cursor_pos[1]:]
                     
                 # Update cursor position and cursor coordinates
                 cursor_pos[1] += pasted_text_length  # Move cursor position forward

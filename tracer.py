@@ -5,8 +5,7 @@ import sys
 
 # File imports
 import configs as cfg
-import header
-import text_editor
+#import text_editor
 import viz_window
 from Agentic_AI.tracer_compiler import build_animation_frames, parse_function_calls 
 
@@ -25,12 +24,14 @@ text_coords = [0, 30]  # X, Y coordinates for text rendering
 code = [""]
 
 # Initialize Surfaces
-viz_window
+visualization_window = viz_window.create_viz_window(cfg.GREEN)
 
 #Build animation frames
 animation_frames = build_animation_frames()
 frame_index = 0
 number_of_animation_frames = len(animation_frames)
+
+print(animation_frames)
 
 # Game Loop
 while running:

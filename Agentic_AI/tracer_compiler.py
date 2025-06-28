@@ -1,5 +1,11 @@
-from agent import gemini_tracer
+from Agentic_AI.agent import gemini_tracer
 import shapes
+
+from dotenv import load_dotenv
+import os
+
+load_dotenv()
+api_key = os.getenv("GEMINI_KEY")
 
 def build_animation_frames():
     functions = gemini_tracer(api_key)
@@ -29,9 +35,5 @@ def parse_function_calls(surface, frame):
             case "draw_arrow":
                 return
 
-if __name__ == "__main__":
-    from dotenv import load_dotenv
-    import os
 
-    load_dotenv()
-    api_key = os.getenv("GEMINI_KEY")
+   

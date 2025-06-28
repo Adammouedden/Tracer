@@ -1,8 +1,6 @@
 import pygame
 from Agentic_AI.tracer_compiler import build_animation_frames
 import configs as cfg
-import text_editor
-import viz_window
 
 class Button:
     def __init__(self, x, y, width, height, icon_char,color, hover_color, action=None, icon_font_size=None):
@@ -34,11 +32,9 @@ class Button:
         surface.blit(icon_surface, icon_rect)
 
     def handleEvent(self, event):
-        if event.type == pygame.MOUSEBUTTONDOWN:
-            if event.button == 1:
-                if self.rect.collidepoint(event.pos):
-                    if self.action:
-                        self.action()
+        if self.rect.collidepoint(event.pos):
+            if self.action:
+                self.action()
 
 
 
@@ -47,38 +43,38 @@ def runCode():
     print("run code pressed")
     # build_animation_frames()
 
-def forwardVis():
+def viz_forward():
     print("fowardVis Pressed")
 
-def backVis():
+def viz_backward():
     print("backVis Pressed")
 
 # Button instances
 runButton = Button(
-    x = 0,
-    y = 0,
+    x = 510,
+    y = 1060,
     width = cfg.button_width, height= cfg.button_height,
-    icon_char = "▶", # Play icon
+    icon_char = "P", # Play icon
     color = cfg.WHITE, hover_color=cfg.HIGHLIGHT_YELLOW,
     action = runCode
 )
 
 forwardButton = Button(
-    x=cfg.WIDTH // 2 - cfg.button_width // 2,
-    y=cfg.HEIGHT // 2 - cfg.button_height // 2 - cfg.button_spacing,
-    width = cfg.button_width, height= cfg.button_height,
-    icon_char = "▶", # Play icon
+    x = 1200,
+    y = 1050,
+    width = cfg.button_width, height = cfg.button_height,
+    icon_char = "N", # Play icon
     color = cfg.WHITE, hover_color=cfg.HIGHLIGHT_YELLOW,
-    action = forwardVis
+    action = viz_forward
 )
 
 backButton = Button(
-    x=cfg.WIDTH // 2 - cfg.button_width // 2,
-    y=cfg.HEIGHT // 2 - cfg.button_height // 2 - cfg.button_spacing,
+    x = 1270,
+    y = 1050,
     width = cfg.button_width, height= cfg.button_height,
-    icon_char = "▶", # Play icon
+    icon_char = "B", # Play icon
     color = cfg.WHITE, hover_color=cfg.HIGHLIGHT_YELLOW,
-    action = backVis
+    action = viz_backward
 )
 
 

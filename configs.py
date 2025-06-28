@@ -27,9 +27,9 @@ font = pygame.font.SysFont("ubuntu", font_size)
 text_offset = 5
 
 # Button sizing
-button_width = 100 
-button_height = 100 
-button_spacing = 120 
+button_width = 50
+button_height = 50 
+button_spacing = 60 
 
 
 # Shape Dimensions

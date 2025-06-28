@@ -27,6 +27,7 @@ def parse_function_calls(viz_surface, text_surface, frame):
             case "draw_text":
                 text = fn.args["text"]
                 coordinates = fn.args["coordinates"]
+                coordinates = (0,0)
                 font_size = fn.args["font_size"]
                 shapes.draw_text(text_surface, text, coordinates, font_size)
                 

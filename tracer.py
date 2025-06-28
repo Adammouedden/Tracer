@@ -67,7 +67,8 @@ while running:
     current_frame = animation_frames[frame_index]
     parse_function_calls(visualization_window, text_window, current_frame)
     screen.blit(visualization_window, (cfg.VIZ_WINDOW_STARTING_COORDINATES))
-    screen.blit(text_window, (0,0))
+    visualization_window.blit(text_window, (0,cfg.VIZ_WINDOW_HEIGHT))
+    text_window.fill(cfg.BLUE)
 
     # Flipping the display
     pygame.display.update()

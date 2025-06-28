@@ -25,9 +25,9 @@ def draw_line(surface, start_pos, end_pos, color = cfg.BLACK):
 # Advanced shapes
 def draw_node(surface, value, coordinates, rectangle_width, rectangle_height, error = False, highlight = False):
     if(highlight):
-        color = cfg.HIGHLIGHT_COLOR
+        color = cfg.HIGHLIGHT_YELLOW
     elif(error):
-        color = cfg.HIGHLIGHT_COLOR
+        color = cfg.HIGHLIGHT_RED
     else:
         color = cfg.WHITE
 
@@ -45,17 +45,17 @@ def draw_arrow_bidirect(surface, start_pos, end_pos, color = cfg.BLACK):
     a_pos = (xa, ya)
 
 
-    xb = start_pos[0] + (cfg.arrow_head_distance * math.cos(angle1 + math.pi/4))
-    yb = start_pos[0] + (cfg.arrow_head_distance * math.sin(angle1 + math.pi/4))
+    xb = start_pos[0] + (cfg.arrow_head_distance * math.cos(angle1 - math.pi/4))
+    yb = start_pos[0] + (cfg.arrow_head_distance * math.sin(angle1 - math.pi/4))
     b_pos = (xb, yb)
 
     angle2 = math.atan2((start_pos[1]-end_pos[1]),(start_pos[0]-end_pos[0]))
-    xc = start_pos[0] + (cfg.arrow_head_distance * math.cos(angle2 + math.pi/4))
-    yc = start_pos[0] + (cfg.arrow_head_distance * math.sin(angle2 + math.pi/4))
+    xc = end_pos[0] + (cfg.arrow_head_distance * math.cos(angle2 + math.pi/4))
+    yc = end_pos[0] + (cfg.arrow_head_distance * math.sin(angle2 + math.pi/4))
     c_pos = (xc, yc)
 
-    xd = start_pos[0] + (cfg.arrow_head_distance * math.cos(angle2 + math.pi/4))
-    yd = start_pos[0] + (cfg.arrow_head_distance * math.sin(angle2 + math.pi/4))
+    xd = end_pos[0] + (cfg.arrow_head_distance * math.cos(angle2 - math.pi/4))
+    yd = end_pos[0] + (cfg.arrow_head_distance * math.sin(angle2 - math.pi/4))
     d_pos = (xd, yd)
 
     draw_line(surface, start_pos, a_pos, color)
@@ -67,14 +67,13 @@ def draw_arrow(surface, start_pos, end_pos, color = cfg.BLACK):
 
     draw_line(surface, start_pos, end_pos, color)
 
-
     angle2 = math.atan2((start_pos[1]-end_pos[1]),(start_pos[0]-end_pos[0]))
-    xc = start_pos[0] + (cfg.arrow_head_distance * math.cos(angle2 + math.pi/4))
-    yc = start_pos[0] + (cfg.arrow_head_distance * math.sin(angle2 + math.pi/4))
+    xc = end_pos[0] + (cfg.arrow_head_distance * math.cos(angle2 + math.pi/4))
+    yc = end_pos[0] + (cfg.arrow_head_distance * math.sin(angle2 + math.pi/4))
     c_pos = (xc, yc)
 
-    xd = start_pos[0] + (cfg.arrow_head_distance * math.cos(angle2 + math.pi/4))
-    yd = start_pos[0] + (cfg.arrow_head_distance * math.sin(angle2 + math.pi/4))
+    xd = end_pos[0] + (cfg.arrow_head_distance * math.cos(angle2 - math.pi/4))
+    yd = end_pos[0] + (cfg.arrow_head_distance * math.sin(angle2 - math.pi/4))
     d_pos = (xd, yd)
     
     draw_line(surface, start_pos, c_pos, color)

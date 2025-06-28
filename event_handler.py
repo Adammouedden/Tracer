@@ -5,7 +5,7 @@ import configs as cfg
 # Pygame Initialization
 pygame.init()
 
-def handle_events(event, running, frame_index, number_of_animation_frames, animation_running, code, cursor_pos, mouse_coords):
+def handle_events(event, running, caps_lock, frame_index, number_of_animation_frames, animation_running, code, cursor_pos, mouse_coords):
     scrap.init()
     if event.type == pygame.QUIT:
         running = False 

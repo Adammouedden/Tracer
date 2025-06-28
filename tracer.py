@@ -1,26 +1,27 @@
+# Module imports
 import os
-
-WINDOW_OFFSET = 80
-os.environ['SDL_VIDEO_WINDOW_POS'] = '0, WINDOW_OFFSET'
 import pygame
+import sys
 
+# File imports
+import configs as cfg
 
-pygame.init()
-
-# Constants
-WHITE = (255, 255, 255)
-BLACK = (0, 0, 0)
-
-screen_info = pygame.display.Info()
-WIDTH = screen_info.current_w
-HEIGHT = screen_info.current_h
-
-# Create a window with the current screen size
-screen = pygame.display.set_mode((WIDTH, HEIGHT-WINDOW_OFFSET))
-pygame.display.set_caption("Tracer")
-
+# Game Loop Logic
+#------------------------------------------------------------------------------------------------------------------------
+# Running Variables
 running = True
+animation_running = False
 
+# Position Variables
+mouse_coords = [0, 0]
+text_pos = [0, 0]
+text_coords = [0, 0]
+
+# Initialize Game Variables
+code = [""]
+current_frame_index = 0
+
+# Game Loop
 while running:
     # Event handling
     for event in pygame.event.get():  
@@ -29,11 +30,18 @@ while running:
         elif event.type == pygame.MOUSEBUTTONDOWN:
             if event.button == 1:  # Left mouse button
                 pos = pygame.mouse.get_pos()
-                pygame.draw.circle(screen, BLACK, pos, 5)
+
         elif event.type == pygame.KEYDOWN:
             if event.key == pygame.K_ESCAPE:
                 running = False
-
-    screen.fill(WHITE)
+            elif event.key == pygame.K_SPACE:
+                animation_running = not animation_running
+                
+    cfg.screen.fill(cfg.WHITE)
     
+    # Flipping the display
     pygame.display.update()
+
+# Quit Pygame
+pygame.quit()
+sys.exit()

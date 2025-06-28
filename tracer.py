@@ -5,9 +5,22 @@ import sys
 
 # File imports
 import configs as cfg
+<<<<<<< HEAD
+=======
+import header
+>>>>>>> 7ac4e7f7a4c61065da87321ca6864d7bc0992ec7
 #import text_editor
 import viz_window
 from Agentic_AI.tracer_compiler import build_animation_frames, parse_function_calls 
+
+# Pygame Initialization
+pygame.init()
+
+# Screen Variables
+os.environ['SDL_VIDEO_WINDOW_POS'] = '0, WINDOW_OFFSET'
+screen = pygame.display.set_mode((cfg.WIDTH, cfg.HEIGHT - cfg.WINDOW_OFFSET))
+pygame.display.set_caption("Tracer")
+clock = pygame.time.Clock()
 
 # Game Loop Logic
 #------------------------------------------------------------------------------------------------------------------------
@@ -73,7 +86,8 @@ while running:
             elif event.key == pygame.K_RETURN:
                 print("Enter key pressed")
             elif event.key == pygame.K_BACKSPACE:
-                print("Backspace key pressed")
+                code[0] = code[0][:text_pos-1] + code[0][text_pos:]
+                text_pos = max(0, text_pos - 1)
             elif event.key == pygame.K_CAPSLOCK:
                 print("Caps Lock key pressed")
             elif event.key == pygame.K_TAB:
@@ -87,12 +101,13 @@ while running:
                 code[text_pos[1]] = code[text_pos[1]][:text_pos[0]] + event.unicode + code[text_pos[1]][text_pos[0]:]
                 text_coords[0] += len(event.unicode)
                 text_pos[0] += 1
+
         elif event.type == pygame.KEYUP:
             if event.key == pygame.K_SPACE:
                 print("Space key released")
 
     # Drawing Screen   
-    cfg.screen.fill(cfg.WHITE)
+    screen.fill(cfg.WHITE)
 
     # Remaking and drawing surface
     current_frame = animation_frames[frame_index]
@@ -101,6 +116,8 @@ while running:
 
     # Flipping the display
     pygame.display.update()
+    # Cap the frame rate
+    clock.tick(4)
 
 # Quit Pygame
 pygame.quit()

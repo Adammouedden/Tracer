@@ -53,7 +53,7 @@ def handle_events(event, running, caps_lock, frame_index, number_of_animation_fr
                 if cursor_pos[0] > 0:
                     cursor_pos[0] -= 1
                     cursor_pos[1] = len(code[cursor_pos[0]])  # Move to the end of the previous line
-            frame_index = (frame_index - 1) % number_of_animation_frames
+            #frame_index = (frame_index - 1) % number_of_animation_frames
         elif event.key == pygame.K_RIGHT:
             if cursor_pos[1] < len(code[cursor_pos[0]]):
                 cursor_pos[1] += 1  # Move cursor right
@@ -61,7 +61,7 @@ def handle_events(event, running, caps_lock, frame_index, number_of_animation_fr
                 if cursor_pos[0] < len(code) - 1:
                     cursor_pos[0] += 1
                     cursor_pos[1] = 0  # Move to the start of the next line
-            frame_index = (frame_index + 1) % number_of_animation_frames
+            #frame_index = (frame_index + 1) % number_of_animation_frames
         elif event.key == pygame.K_RETURN:
             if cursor_pos[1] < len(code[cursor_pos[0]]):
                 # Split the current line at the cursor position
@@ -73,11 +73,21 @@ def handle_events(event, running, caps_lock, frame_index, number_of_animation_fr
             cursor_pos[0] += 1  # Move to the next line
             cursor_pos[1] = 0  # Reset character position to the start of the new lin
         elif event.key == pygame.K_BACKSPACE:
-            code[cursor_pos[0]] = code[cursor_pos[0]][:cursor_pos[1]-1] + code[cursor_pos[0]][cursor_pos[1]:]
+            # If the cursor is at the start of the line, move to the previous line
             if cursor_pos[1] == 0:
-                cursor_pos[0] = max(0, cursor_pos[0] - 1)  # Move to the previous line if at the start of the current line
-                cursor_pos[1] = len(code[cursor_pos[0]])  # Move to the end of the previous line
+                # If there is a previous line, merge the current line with the previous one
+                if cursor_pos[0] > 0:
+                    length_of_previous_line = len(code[cursor_pos[0]-1])
+                    # (Previous lines - 1) + previous line + current line + remaining lines
+                    code = code[:cursor_pos[0]-1] + [code[cursor_pos[0]-1] + code[cursor_pos[0]]] + code[cursor_pos[0]+1:]
+                    #RESET CURSOR POSITION
+                    cursor_pos[0] = cursor_pos[0] - 1
+                    cursor_pos[1] = length_of_previous_line  # Move to the end of the previous line
+
+            # If the cursor is not at the start of the line, just move the cursor back
             else:
+                code[cursor_pos[0]] = code[cursor_pos[0]][:cursor_pos[1]-1] + code[cursor_pos[0]][cursor_pos[1]:]
+                #RESET CURSOR POSITION
                 cursor_pos[1] = max(0, cursor_pos[1] - 1)
         elif event.key == pygame.K_CAPSLOCK:
             caps_lock = not caps_lock

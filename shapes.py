@@ -79,13 +79,6 @@ def draw_arrow(surface, start_pos, end_pos, color=cfg.BLACK):
     xd = end_pos[0]+(cfg.arrow_head_distance*math.cos(angle2-math.pi/4))
     yd = end_pos[1] + (cfg.arrow_head_distance*math.sin(angle2-math.pi/4))
     d_pos = (xd, yd)
-<<<<<<< HEAD
     
     draw_line(surface, end_pos, c_pos, color)
     draw_line(surface, end_pos, d_pos, color)
-=======
-
-    #Draw the arrow head
-    draw_line(surface, end_pos, c_pos, color)
-    draw_line(surface, end_pos, d_pos, color)
->>>>>>> 8f8ca9ea13559d1b40aabccbf1f1c6d2d70def93

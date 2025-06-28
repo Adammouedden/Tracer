@@ -1,5 +1,6 @@
 import pygame
 import pygame.scrap as scrap
+import pygame.scrap as scrap
 import configs as cfg
 
 # Pygame Initialization

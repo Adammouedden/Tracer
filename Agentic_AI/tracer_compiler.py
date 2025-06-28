@@ -1,4 +1,6 @@
-from agent import gemini_tracer
+from Agentic_AI.agent import gemini_tracer
+import shapes
+
 from dotenv import load_dotenv
 import os
 
@@ -22,8 +24,16 @@ def parse_function_calls(surface, frame):
     for fn in frame:
         match fn.name:
             case "draw_text":
+                text = fn.args["text"]
+                coordinates = fn.args["coordinates"]
+                font_size = fn.args["font_size"]
+                shapes.draw_text(surface, text, coordinates, font_size)
                 
             case "draw_node":
+                return
 
             case "draw_arrow":
+                return
 
+
+   

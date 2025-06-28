@@ -1,5 +1,5 @@
 from google.genai import types
-from base_agent import TracerAgent
+from Agentic_AI.base_agent import TracerAgent
 
 
 code_path = r"Agentic_AI\LLM_Files\test_case1.txt"
@@ -37,8 +37,8 @@ def declare_functions():
                     },
 
                     "font_size": {
-                        "type": "string",
-                        "description": "Time of the meeting (e.g., '15:00')",
+                        "type": "number",
+                        "description": "Size of your text",
                     },
 
                     "animation_frame": 

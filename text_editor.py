@@ -1,20 +1,16 @@
 import pygame
-import pygame.scrap as scrap
-pygame.init()
-screen = pygame.display.set_mode((800, 600))
+import configs as cfg
 
-scrap.init()
-scrap.set_mode(pygame.SCRAP_CLIPBOARD)
+def surface(code, cursor_pos, cursor_coords, ):
+    text_editor_surface = pygame.Surface((cfg.TEXT_EDITOR_WIDTH, cfg.HEIGHT))
+    text_editor_surface.fill(cfg.BLACK)
+    font = pygame.font.SysFont("ubuntu", 24)
 
+    # Render each line of code
+    for i, line in enumerate(code):
+        text_surface = font.render(line, True, cfg.WHITE)
+        text_y = cursor_coords[1] + i * (text_surface.get_height() + 5)
 
-running = True
-while running:
-    for event in pygame.event.get():
-        if event.type == pygame.QUIT:
-            running = False
-        
-    # Fill the screen with a color (e.g., black)
-    screen.fill((0, 0, 0))
-
-    # Update the display
-    pygame.display.flip()
+    # Drawing the cursor
+    
+    return text_editor_surface

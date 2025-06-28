@@ -5,9 +5,17 @@ import sys
 
 # File imports
 import configs as cfg
-import header
-import text_editor
+#import text_editor
 import viz_window
+
+# Pygame Initialization
+pygame.init()
+
+# Screen Variables
+os.environ['SDL_VIDEO_WINDOW_POS'] = '0, WINDOW_OFFSET'
+screen = pygame.display.set_mode((cfg.WIDTH, cfg.HEIGHT - cfg.WINDOW_OFFSET))
+pygame.display.set_caption("Tracer")
+clock = pygame.time.Clock()
 
 # Game Loop Logic
 
@@ -27,7 +35,10 @@ code = [""]
 current_frame_index = 0
 
 # Initialize Surfaces
+visualization_window = viz_window.create_viz_window(cfg.GREEN)
 
+
+#print(animation_frames)
 
 # Game Loop
 while running:
@@ -65,7 +76,8 @@ while running:
             elif event.key == pygame.K_RETURN:
                 print("Enter key pressed")
             elif event.key == pygame.K_BACKSPACE:
-                print("Backspace key pressed")
+                code[cursor_pos[0]] = code[cursor_pos[0]][:cursor_pos-1] + code[cursor_pos[0]][cursor_pos:]
+                cursor_pos = max(0, cursor_pos - 1)
             elif event.key == pygame.K_CAPSLOCK:
                 print("Caps Lock key pressed")
             elif event.key == pygame.K_TAB:
@@ -114,18 +126,21 @@ while running:
                 code[cursor_pos[1]] = code[cursor_pos[1]][:cursor_pos[0]] + event.unicode + code[cursor_pos[1]][cursor_pos[0]:]
                 cursor_coords[0] += len(event.unicode)
                 cursor_pos[0] += 1
+
         elif event.type == pygame.KEYUP:
             if event.key == pygame.K_SPACE:
                 print("Space key released")
 
     # Drawing Screen   
-    cfg.screen.fill(cfg.WHITE)
+    screen.fill(cfg.WHITE)
 
     # Remaking and drawing surface
     
 
     # Flipping the display
     pygame.display.update()
+    # Cap the frame rate
+    clock.tick(4)
 
 # Quit Pygame
 pygame.quit()

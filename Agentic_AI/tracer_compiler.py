@@ -21,14 +21,14 @@ def build_animation_frames():
     return animation_frames
 
 
-def parse_function_calls(surface, frame):
+def parse_function_calls(viz_surface, text_surface, frame):
     for fn in frame:
         match fn.name:
             case "draw_text":
                 text = fn.args["text"]
                 coordinates = fn.args["coordinates"]
                 font_size = fn.args["font_size"]
-                shapes.draw_text(surface, text, coordinates, font_size)
+                shapes.draw_text(text_surface, text, coordinates, font_size)
                 
             case "draw_node":
                 value = fn.args["value"]
@@ -37,12 +37,12 @@ def parse_function_calls(surface, frame):
                 rectangle_height = fn.args["rectangle_height"]
                 error = fn.args["error"]
                 highlight = fn.args["highlight"]
-                shapes.draw_node(surface, value, coordinates, rectangle_width, rectangle_height)
+                shapes.draw_node(viz_surface, value, coordinates, rectangle_width, rectangle_height)
 
             case "draw_arrow":
                 start_pos = fn.args["start_pos"]
                 end_pos = fn.args["end_pos"]
-                shapes.draw_arrow(surface, start_pos, end_pos)
+                shapes.draw_arrow(viz_surface, start_pos, end_pos)
 
 
    

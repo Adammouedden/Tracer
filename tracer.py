@@ -40,11 +40,11 @@ visualization_window = viz_window.create_viz_window(cfg.GREEN)
 text_editor_surface = text_editor.surface(code, cursor_pos)
 
 
-"""#BUILD ANIMATION FRAMES
+#BUILD ANIMATION FRAMES
 animation_frames = build_animation_frames()
 #print(animation_frames)
 frame_index = 0
-number_of_animation_frames = len(animation_frames)"""
+number_of_animation_frames = len(animation_frames)
 number_of_animation_frames = 0
 frame_index = 0
 animation_frames = []
@@ -64,8 +64,8 @@ while running:
     screen.blit(text_editor_surface, (0,0))
 
     #Draw the animation current frame's functions to the screen
-    #current_frame = animation_frames[frame_index]
-    #parse_function_calls(visualization_window, current_frame)
+    current_frame = animation_frames[frame_index]
+    parse_function_calls(visualization_window, current_frame)
     screen.blit(visualization_window, (cfg.VIZ_WINDOW_STARTING_COORDINATES))
 
     # Flipping the display

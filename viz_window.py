@@ -11,3 +11,5 @@ def create_viz_window(surface_color):
 
 def reset(surface, surface_color):
     surface.fill(surface_color)
+
+

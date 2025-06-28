@@ -23,5 +23,5 @@ HIGHLIGHT = (255, 255, 0, 100)
 
 # Fonts
 font_size = 100
-font = pygame.font.Font("ubuntu", font_size)
+font = pygame.font.SysFont("ubuntu", font_size)
 text_offset = 5

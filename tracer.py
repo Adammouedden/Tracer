@@ -39,23 +39,50 @@ while running:
 
         elif event.type == pygame.MOUSEBUTTONDOWN:
             if event.button == 1:  # Left mouse button
-                pass
+                print("Left mouse button clicked at", mouse_coords)
             elif event.button == 3:  # Right mouse button
-                pass
+                print("Right mouse button clicked at", mouse_coords)
             elif event.button == 4:  # Scroll up
-                pass
+                print("Mouse wheel scrolled up at", mouse_coords)
             elif event.button == 5:  # Scroll down
-                pass
-            
+                print("Mouse wheel scrolled down at", mouse_coords)
+
         elif event.type == pygame.KEYDOWN:
             if event.key == pygame.K_ESCAPE:
                 running = False
             elif event.key == pygame.K_SPACE:
                 animation_running = not animation_running
+            elif event.key == pygame.K_UP:
+                print("Up arrow key pressed")   
+            elif event.key == pygame.K_DOWN:
+                print("Down arrow key pressed")
+            elif event.key == pygame.K_LEFT:
+                print("Left arrow key pressed")
+            elif event.key == pygame.K_RIGHT:
+                print("Right arrow key pressed")
+            elif event.key == pygame.K_RETURN:
+                print("Enter key pressed")
+            elif event.key == pygame.K_BACKSPACE:
+                print("Backspace key pressed")
+            elif event.key == pygame.K_CAPSLOCK:
+                print("Caps Lock key pressed")
+            elif event.key == pygame.K_TAB:
+                print("Tab key pressed")
+            elif event.key == pygame.K_LSHIFT or event.key == pygame.K_RSHIFT:
+                print("Shift key pressed")  
+            elif event.key == pygame.K_LCTRL or event.key == pygame.K_RCTRL:
+                print("Control key pressed")
+            
+        elif event.type == pygame.KEYUP:
+            if event.key == pygame.K_SPACE:
+                print("Space key released")
 
     # Drawing Screen   
     cfg.screen.fill(cfg.WHITE)
+
+    # Remaking and drawing surface
     
+
     # Flipping the display
     pygame.display.update()
 

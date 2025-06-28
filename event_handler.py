@@ -1,7 +1,7 @@
 import pygame
 import pygame.scrap as scrap
 import configs as cfg
-
+from buttons import all_buttons
 # Pygame Initialization
 pygame.init()
 
@@ -22,8 +22,20 @@ def handle_events(event, running, caps_lock, frame_index, number_of_animation_fr
             print("Mouse wheel scrolled up at", mouse_coords)
         elif event.button == 5:  # Scroll down
             print("Mouse wheel scrolled down at", mouse_coords)
+            
+        for buttons in all_buttons:
+            buttons.handleEvent(event)
 
     elif event.type == pygame.KEYDOWN:
+
+        '''
+        if event.key == pygame.K_PAGEUP:
+            frame_index = (frame_index + 1) % number_of_animation_frames
+            print(f"Frame: {frame_index}/{number_of_animation_frames}")
+        if event.key == pygame.K_PAGEDOWN:
+            frame_index = (frame_index - 1) % number_of_animation_frames
+            print(f"Frame: {frame_index}/{number_of_animation_frames}")
+        '''
         if event.key == pygame.K_ESCAPE:
             running = False
         elif event.key == pygame.K_UP:
@@ -82,6 +94,7 @@ def handle_events(event, running, caps_lock, frame_index, number_of_animation_fr
         elif event.key == pygame.K_TAB:
             print("Tab key pressed")
         
+
         # --- Copy/Paste/Cut Logic ---  
         elif (event.mod & pygame.KMOD_CTRL): # Check for Control key
             if event.key == pygame.K_c: # Letter C
@@ -98,23 +111,25 @@ def handle_events(event, running, caps_lock, frame_index, number_of_animation_fr
                 print("Text copied to clipboard:", text_to_copy)
             elif event.key == pygame.K_v: # Letter V
                 clipboard_data = pygame.scrap.get(pygame.SCRAP_TEXT)
-                for t in pygame.scrap.get_types():
-                    print(f"DEBUG: Clipboard type: {t}\n")
-                try:
-                    pasted_text = clipboard_data.decode('utf-8')
-                    pasted_text = pasted_text.replace('\x00', '')  # Remove null characters
-                    pasted_text_length = len(pasted_text)
+                if clipboard_data:
+                        try:
+                            for t in pygame.scrap.get_types():
+                                print(f"DEBUG: Clipboard type: {t}\n")
 
-                    # Loop over text to insert into code array
-                    for i in range(pasted_text_length):
-                        code[cursor_pos[0]][cursor_pos[1+i]] = pasted_text[i] # Only deal with the first line for simplicity
-                        
-                        # Update cursor position and cursor coordinates
-                        cursor_pos[1] += 1  # Move cursor position forward
-                except UnicodeDecodeError:
-                        print("Could not decode clipboard data as UTF-8.")
-                except Exception as e:
-                    print(f"An unexpected error occurred during paste: {e}")
+                                pasted_text = clipboard_data.decode('utf-8')
+                                pasted_text = pasted_text.replace('\x0d', '')  # Remove carriage return
+                                pasted_text = pasted_text.replace('\x00', '')  # Remove null characters
+                                pasted_text_length = len(pasted_text)
+
+                            # Insert the pasted text at the cursor position
+                            code[cursor_pos[0]] = code[cursor_pos[0]][:cursor_pos[1]] + pasted_text + code[cursor_pos[0]][cursor_pos[1]:]
+                                
+                            # Update cursor position and cursor coordinates
+                            cursor_pos[1] += pasted_text_length  # Move cursor position forward
+                        except UnicodeDecodeError:
+                            print("Could not decode clipboard data as UTF-8.")
+                        except Exception as e:
+                            print(f"An unexpected error occurred during paste: {e}")
 
         # Account for all other keys
         else: 

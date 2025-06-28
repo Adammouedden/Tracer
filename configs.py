@@ -9,16 +9,9 @@ screen_info = pygame.display.Info()
 WIDTH = screen_info.current_w
 HEIGHT = screen_info.current_h
 WINDOW_OFFSET = 80
-<<<<<<< HEAD
-os.environ['SDL_VIDEO_WINDOW_POS'] = '0, WINDOW_OFFSET'
-SCREEN_HEIGHT = HEIGHT - WINDOW_OFFSET
-screen = pygame.display.set_mode((WIDTH, SCREEN_HEIGHT))
-pygame.display.set_caption("Tracer")
-=======
 #os.environ['SDL_VIDEO_WINDOW_POS'] = '0, WINDOW_OFFSET'
 #screen = pygame.display.set_mode((WIDTH, HEIGHT-WINDOW_OFFSET))
 #pygame.display.set_caption("Tracer")
->>>>>>> 7ac4e7f7a4c61065da87321ca6864d7bc0992ec7
 
 # Colors
 WHITE = (255, 255, 255)
@@ -43,6 +36,7 @@ TEXT_EDITOR_WIDTH = WIDTH * 0.7
 #Viz window dimensions
 VIZ_WINDOW_WIDTH = WIDTH - TEXT_EDITOR_WIDTH
 VIZ_WINDOW_HEIGHT = HEIGHT
-VIZ_WINDOW_STARTING_X = 0
+VIZ_WINDOW_STARTING_X = VIZ_WINDOW_WIDTH
+VIZ_WINDOW_STARTING_y = 0
 
-VIZ_WINDOW_STARTING_COORDINATES = (TEXTX)
+VIZ_WINDOW_STARTING_COORDINATES = (VIZ_WINDOW_STARTING_X, VIZ_WINDOW_STARTING_y)

@@ -5,10 +5,6 @@ import sys
 
 # File imports
 import configs as cfg
-<<<<<<< HEAD
-=======
-import header
->>>>>>> 7ac4e7f7a4c61065da87321ca6864d7bc0992ec7
 #import text_editor
 import viz_window
 from Agentic_AI.tracer_compiler import build_animation_frames, parse_function_calls 

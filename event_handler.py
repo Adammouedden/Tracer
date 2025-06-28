@@ -1,10 +1,12 @@
 import pygame
+import pygame.scrap as scrap
 import configs as cfg
 
 # Pygame Initialization
 pygame.init()
 
 def handle_events(event, running, caps_lock, frame_index, number_of_animation_frames, animation_running, code, cursor_pos, mouse_coords):
+    scrap.init()
     if event.type == pygame.QUIT:
         running = False 
 
@@ -39,7 +41,7 @@ def handle_events(event, running, caps_lock, frame_index, number_of_animation_fr
                 if cursor_pos[0] > 0:
                     cursor_pos[0] -= 1
                     cursor_pos[1] = len(code[cursor_pos[0]])  # Move to the end of the previous line
-            #frame_index = (frame_index - 1) % number_of_animation_frames
+            frame_index = (frame_index - 1) % number_of_animation_frames
         elif event.key == pygame.K_RIGHT:
             if cursor_pos[1] < len(code[cursor_pos[0]]):
                 cursor_pos[1] += 1  # Move cursor right
@@ -47,11 +49,17 @@ def handle_events(event, running, caps_lock, frame_index, number_of_animation_fr
                 if cursor_pos[0] < len(code) - 1:
                     cursor_pos[0] += 1
                     cursor_pos[1] = 0  # Move to the start of the next line
-            #frame_index = (frame_index + 1) % number_of_animation_frames
+            frame_index = (frame_index + 1) % number_of_animation_frames
         elif event.key == pygame.K_RETURN:
+            if cursor_pos[1] < len(code[cursor_pos[0]]):
+                # Split the current line at the cursor position
+                new_line = code[cursor_pos[0]][cursor_pos[1]:] 
+                code[cursor_pos[0]] = code[cursor_pos[0]][:cursor_pos[1]]
+                code.insert(cursor_pos[0]+1, new_line)  # Add a new line with the remaining text                
+            else:
+                code.append("")  # Add a new line to the code array
             cursor_pos[0] += 1  # Move to the next line
-            cursor_pos[1] = 0  # Reset character position to the start of the line
-            code.append("")  # Add a new line to the code array
+            cursor_pos[1] = 0  # Reset character position to the start of the new lin
         elif event.key == pygame.K_BACKSPACE:
             code[cursor_pos[0]] = code[cursor_pos[0]][:cursor_pos[1]-1] + code[cursor_pos[0]][cursor_pos[1]:]
             if cursor_pos[1] == 0:

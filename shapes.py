@@ -7,11 +7,11 @@ pygame.init()
 #Base Shapes
 def draw_text(surface, text: str, coordinates, font_size = 20, color = cfg.BLACK):
     font = pygame.font.SysFont("ubuntu", font_size)
-    #text_surface = font.render(text, True, color)
+    text_surface = font.render(text, True, color)
     x, y = coordinates
     new_coordinates = (x, y + cfg.text_offset)
     text_rectangle = surface.get_rect(topleft=(new_coordinates))
-    surface.blit(surface, text_rectangle)
+    surface.blit(text_surface, text_rectangle)
 
 def draw_rectangle(surface, coordinates, rectangle_width, rectangle_height, border=0, color= cfg.BLACK):
     rect_object = (coordinates[0], coordinates[1], rectangle_width, rectangle_width)

@@ -5,7 +5,6 @@ import sys
 
 # File imports
 import configs as cfg
-import header
 #import text_editor
 import viz_window
 
@@ -34,7 +33,10 @@ code = [""]
 current_frame_index = 0
 
 # Initialize Surfaces
+visualization_window = viz_window.create_viz_window(cfg.GREEN)
 
+
+print(animation_frames)
 
 # Game Loop
 while running:

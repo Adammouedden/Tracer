@@ -1,10 +1,12 @@
 import pygame
+import pygame.scrap as scrap
 import configs as cfg
 from buttons import all_buttons
 # Pygame Initialization
 pygame.init()
 
-def handle_events(event, running, frame_index, number_of_animation_frames, animation_running, code, cursor_pos, mouse_coords):
+def handle_events(event, running, caps_lock, frame_index, number_of_animation_frames, animation_running, code, cursor_pos, mouse_coords):
+    scrap.init()
     if event.type == pygame.QUIT:
         running = False 
 
@@ -28,26 +30,50 @@ def handle_events(event, running, frame_index, number_of_animation_frames, anima
         if event.key == pygame.K_ESCAPE:
             running = False
         elif event.key == pygame.K_UP:
-            print("Up arrow key pressed")   
+            if cursor_pos[0] > 0:
+                cursor_pos[0] -= 1  # Move cursor up
+                cursor_pos[1] = min(cursor_pos[1], len(code[cursor_pos[0]]))
         elif event.key == pygame.K_DOWN:
-            print("Down arrow key pressed")
+            if cursor_pos[0] < len(code) - 1:
+                cursor_pos[0] += 1  # Move cursor down
+                cursor_pos[1] = min(cursor_pos[1], len(code[cursor_pos[0]]))
         elif event.key == pygame.K_LEFT:
-            print("Left arrow key pressed")
+            if cursor_pos[1] > 0:
+                cursor_pos[1] -= 1  # Move cursor left
+            elif cursor_pos[1] == 0:
+                if cursor_pos[0] > 0:
+                    cursor_pos[0] -= 1
+                    cursor_pos[1] = len(code[cursor_pos[0]])  # Move to the end of the previous line
             frame_index = (frame_index - 1) % number_of_animation_frames
         elif event.key == pygame.K_RIGHT:
-            print("Right arrow key pressed")
+            if cursor_pos[1] < len(code[cursor_pos[0]]):
+                cursor_pos[1] += 1  # Move cursor right
+            elif cursor_pos[1] == len(code[cursor_pos[0]]):
+                if cursor_pos[0] < len(code) - 1:
+                    cursor_pos[0] += 1
+                    cursor_pos[1] = 0  # Move to the start of the next line
             frame_index = (frame_index + 1) % number_of_animation_frames
         elif event.key == pygame.K_RETURN:
-            print("Enter key pressed")
+            if cursor_pos[1] < len(code[cursor_pos[0]]):
+                # Split the current line at the cursor position
+                new_line = code[cursor_pos[0]][cursor_pos[1]:] 
+                code[cursor_pos[0]] = code[cursor_pos[0]][:cursor_pos[1]]
+                code.insert(cursor_pos[0]+1, new_line)  # Add a new line with the remaining text                
+            else:
+                code.append("")  # Add a new line to the code array
+            cursor_pos[0] += 1  # Move to the next line
+            cursor_pos[1] = 0  # Reset character position to the start of the new lin
         elif event.key == pygame.K_BACKSPACE:
             code[cursor_pos[0]] = code[cursor_pos[0]][:cursor_pos[1]-1] + code[cursor_pos[0]][cursor_pos[1]:]
-            cursor_pos[1] = max(0, cursor_pos[1] - 1)
+            if cursor_pos[1] == 0:
+                cursor_pos[0] = max(0, cursor_pos[0] - 1)  # Move to the previous line if at the start of the current line
+                cursor_pos[1] = len(code[cursor_pos[0]])  # Move to the end of the previous line
+            else:
+                cursor_pos[1] = max(0, cursor_pos[1] - 1)
         elif event.key == pygame.K_CAPSLOCK:
-            print("Caps Lock key pressed")
+            caps_lock = not caps_lock
         elif event.key == pygame.K_TAB:
             print("Tab key pressed")
-        elif event.key == pygame.K_LSHIFT or event.key == pygame.K_RSHIFT:
-            print("Shift key pressed")
         
         # --- Copy/Paste/Cut Logic ---  
         elif (event.mod & pygame.KMOD_CTRL): # Check for Control key
@@ -84,9 +110,13 @@ def handle_events(event, running, frame_index, number_of_animation_frames, anima
                     print(f"An unexpected error occurred during paste: {e}")
 
         # Account for all other keys
-        else:   
+        else: 
+            if caps_lock:
+                event.unicode = event.unicode.upper()
+            else:
+                event.unicode = event.unicode.lower()
             # Left side of cursor character position + new character + right side of cursor character position
             code[cursor_pos[0]] = code[cursor_pos[0]][:cursor_pos[1]] + event.unicode + code[cursor_pos[0]][cursor_pos[1]:]
             cursor_pos[1] += 1
 
-    return running, frame_index, animation_running, code, cursor_pos, mouse_coords
+    return running, caps_lock, frame_index, animation_running, code, cursor_pos, mouse_coords

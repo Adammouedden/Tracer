@@ -1,4 +1,5 @@
 import pygame
+import sys
 
 # Pygame Initialization
 pygame.init()
@@ -8,6 +9,7 @@ screen_info = pygame.display.Info()
 WIDTH = screen_info.current_w
 HEIGHT = screen_info.current_h
 WINDOW_OFFSET = 80
+FPS = sys.maxsize  # Set FPS to maximum possible value
 
 screen = pygame.display.set_mode((WIDTH, HEIGHT - WINDOW_OFFSET))
 pygame.display.set_caption("Tracer") # Set the window title

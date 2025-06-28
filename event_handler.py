@@ -56,7 +56,7 @@ def handle_events(event, running, caps_lock, frame_index, number_of_animation_fr
                 # Split the current line at the cursor position
                 new_line = code[cursor_pos[0]][cursor_pos[1]:] 
                 code[cursor_pos[0]] = code[cursor_pos[0]][:cursor_pos[1]]
-                code.append(new_line)  # Add a new line with the remaining text                
+                code.insert(cursor_pos[0]+1, new_line)  # Add a new line with the remaining text                
             else:
                 code.append("")  # Add a new line to the code array
             cursor_pos[0] += 1  # Move to the next line

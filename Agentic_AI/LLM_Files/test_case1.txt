@@ -1,1 +1,31 @@
-What are your thoughts on these functions?
+#include <stdlib.h>
+
+typedef struct LL{
+    struct LL next;
+    int value;
+}node;
+
+
+nodeinitialize_node(int data){
+    node* new_node = (node)malloc(sizeof(node));
+    new_node->next = NULL;
+    new_node->value = data;
+    return new_node;
+}
+
+int main(){
+
+    nodehead = initialize_node(0);
+    node temp = head;
+
+    for (int i = 1; i < 5; i++){
+        node *new_node = initialize_node(i);
+        temp->next = new_node;
+        temp = temp->next;
+
+    }
+
+    free(head);
+
+    return 0;
+}

@@ -1,5 +1,6 @@
 import os
 
+# TEST THIS ACROSS MONITORS
 WINDOW_OFFSET = 80
 os.environ['SDL_VIDEO_WINDOW_POS'] = '0, WINDOW_OFFSET'
 import pygame

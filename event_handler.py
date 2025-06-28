@@ -41,7 +41,7 @@ def handle_events(event, running, frame_index, number_of_animation_frames, anima
                 if cursor_pos[0] > 0:
                     cursor_pos[0] -= 1
                     cursor_pos[1] = len(code[cursor_pos[0]])  # Move to the end of the previous line
-            #frame_index = (frame_index - 1) % number_of_animation_frames
+            frame_index = (frame_index - 1) % number_of_animation_frames
         elif event.key == pygame.K_RIGHT:
             if cursor_pos[1] < len(code[cursor_pos[0]]):
                 cursor_pos[1] += 1  # Move cursor right
@@ -49,7 +49,7 @@ def handle_events(event, running, frame_index, number_of_animation_frames, anima
                 if cursor_pos[0] < len(code) - 1:
                     cursor_pos[0] += 1
                     cursor_pos[1] = 0  # Move to the start of the next line
-            #frame_index = (frame_index + 1) % number_of_animation_frames
+            frame_index = (frame_index + 1) % number_of_animation_frames
         elif event.key == pygame.K_RETURN:
             cursor_pos[0] += 1  # Move to the next line
             cursor_pos[1] = 0  # Reset character position to the start of the line

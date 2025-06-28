@@ -3,12 +3,22 @@ from Agentic_AI.base_agent import TracerAgent
 
 
 code_path = r"Agentic_AI\LLM_Files\test_case1.txt"
-with open(code_path, "r") as file:
-    input_code = file.read()
+code_path_linux = r"Agentic_AI/LLM_Files/test_case1.txt"
+try:
+    with open(code_path, "r") as file:
+        input_code = file.read()
+except:
+    with open(code_path_linux, "r") as file:
+        input_code = file.read()
 
 prompt_path = r"Agentic_AI\LLM_Files\system_prompt.txt"
-with open(prompt_path, "r") as file:
-    prompt = file.read()
+prompt_path_linux = r"Agentic_AI/LLM_Files/system_prompt.txt"
+try:
+    with open(prompt_path, "r") as file:
+        prompt = file.read()
+except:
+    with open(prompt_path_linux, "r") as file:
+        prompt = file.read()
 
 
 #This function declares the drawing functions in the OpenAPI Schema, which is what Gemini requires for it's configuration

@@ -1,7 +1,7 @@
 import pygame
 import pygame.scrap as scrap
 import configs as cfg
-
+from buttons import all_buttons
 # Pygame Initialization
 pygame.init()
 
@@ -22,6 +22,9 @@ def handle_events(event, running, caps_lock, frame_index, number_of_animation_fr
             print("Mouse wheel scrolled up at", mouse_coords)
         elif event.button == 5:  # Scroll down
             print("Mouse wheel scrolled down at", mouse_coords)
+
+        for buttons in all_buttons:
+            buttons.handleEvent(event)
 
     elif event.type == pygame.KEYDOWN:
         if event.key == pygame.K_ESCAPE:

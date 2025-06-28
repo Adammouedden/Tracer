@@ -29,15 +29,15 @@ animation_running = False
 
 # Position Variables
 mouse_coords = [0, 0]
-cursor_pos = [0, 0]   # Line number, character position
+cursor_pos = [1, 0]   # Line number, character position
 
 # Initialize Game Variables
-code = [""]
+code = ["hello", ""]
 current_frame_index = 0
 
 # Initialize Surfaces
 visualization_window = viz_window.create_viz_window(cfg.GREEN)
-text_editor_surface = text_editor.surface(code, cursor_pos, cursor_coords)
+text_editor_surface = text_editor.surface(code, cursor_pos)
 
 
 """#BUILD ANIMATION FRAMES

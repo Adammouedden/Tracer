@@ -33,6 +33,7 @@ arrow_head_distance = 15
 
 #Text Editor Dimensions
 TEXT_EDITOR_WIDTH = WIDTH * 0.3
+TEXT_EDITOR_WIDTH = WIDTH * 0.3
 
 #Viz window dimensions
 VIZ_WINDOW_WIDTH = WIDTH - TEXT_EDITOR_WIDTH

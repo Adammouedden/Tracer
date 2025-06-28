@@ -25,8 +25,8 @@ animation_running = False
 
 # Position Variables
 mouse_coords = [0, 0]
-text_pos = [0, 0]   # Line number, character position
-text_coords = [0, 30]  # X, Y coordinates for text rendering
+cursor_pos = [0, 0]   # Line number, character position
+cursor_coords = [0, 30]  # X, Y coordinates for text rendering
 
 # Initialize Game Variables
 code = [""]
@@ -36,7 +36,7 @@ current_frame_index = 0
 visualization_window = viz_window.create_viz_window(cfg.GREEN)
 
 
-print(animation_frames)
+#print(animation_frames)
 
 # Game Loop
 while running:
@@ -74,8 +74,8 @@ while running:
             elif event.key == pygame.K_RETURN:
                 print("Enter key pressed")
             elif event.key == pygame.K_BACKSPACE:
-                code[0] = code[0][:text_pos-1] + code[0][text_pos:]
-                text_pos = max(0, text_pos - 1)
+                code[cursor_pos[0]] = code[cursor_pos[0]][:cursor_pos-1] + code[cursor_pos[0]][cursor_pos:]
+                cursor_pos = max(0, cursor_pos - 1)
             elif event.key == pygame.K_CAPSLOCK:
                 print("Caps Lock key pressed")
             elif event.key == pygame.K_TAB:
@@ -86,9 +86,9 @@ while running:
                 print("Control key pressed")
             else:   
                 # Left side of cursor character position + new character + right side of cursor character position
-                code[text_pos[1]] = code[text_pos[1]][:text_pos[0]] + event.unicode + code[text_pos[1]][text_pos[0]:]
-                text_coords[0] += len(event.unicode)
-                text_pos[0] += 1
+                code[cursor_pos[1]] = code[cursor_pos[1]][:cursor_pos[0]] + event.unicode + code[cursor_pos[1]][cursor_pos[0]:]
+                cursor_coords[0] += len(event.unicode)
+                cursor_pos[0] += 1
 
         elif event.type == pygame.KEYUP:
             if event.key == pygame.K_SPACE:

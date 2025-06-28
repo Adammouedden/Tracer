@@ -25,6 +25,7 @@ text_coords = [0, 30]  # X, Y coordinates for text rendering
 code = [""]
 
 # Initialize Surfaces
+viz_window
 
 #Build animation frames
 animation_frames = build_animation_frames()

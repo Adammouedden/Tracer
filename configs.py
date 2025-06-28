@@ -25,3 +25,7 @@ HIGHLIGHT = (255, 255, 0, 100)
 font_size = 100
 font = pygame.font.SysFont("ubuntu", font_size)
 text_offset = 5
+
+# Shape Dimensions
+line_width = 3
+arrow_head_distance = 15

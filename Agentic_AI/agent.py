@@ -2,7 +2,7 @@ from google.genai import types
 from Agentic_AI.base_agent import TracerAgent
 
 
-code_path = r"Agentic_AI\LLM_Files\test_case1.txt"
+code_path = r"Agentic_AI\LLM_Files\bst_testcase.txt"
 code_path_linux = r"Agentic_AI/LLM_Files/test_case1.txt"
 try:
     with open(code_path, "r") as file:
@@ -51,15 +51,15 @@ def declare_drawing_functions():
                     {
                         "type": "integer",
                         "description": "The width of the rectangle. The minimum width is 40",
-                        "minimum": 50,
-                        "maximum": 150,
+                        "minimum": 100,
+                        "maximum": 200,
                     },
                     
                     "rectangle_height": 
                         {
                         "type": "integer",
                         "description": "The height of the rectangle.",
-                        "minimum": 50,
+                        "minimum": 100,
                         "maximum": 150
                     },
                         
@@ -89,7 +89,7 @@ def declare_drawing_functions():
 
         {
             "name": "draw_text",
-            "description": "Custom pygame drawing function. Draws a text anywhere on the screen",
+            "description": "Draw explanations for why you drew certain visualizations to explain code.",
             "parameters": 
             {
                 "type": "object",
@@ -116,7 +116,7 @@ def declare_drawing_functions():
                         "type": "number",
                         "description": "The size of the font in pixels for the text you are drawing",
                         "minimum": 30,
-                        "maximum": 50,
+                        "maximum": 30,
                     },
                     
                     "animation_frame": 
@@ -167,34 +167,105 @@ def declare_drawing_functions():
                 },
                 "required": ["start_pos", "end_pos", "animation_frame"]
             }
+        },
+
+        {
+            "name": "draw_circular_node",
+            "description": "Custom pygame drawing function. Draws a circular node for describing computer science data structures.",
+            "parameters": 
+            {
+                "type": "object",
+                "properties": 
+                {
+                    "value": 
+                    {
+                        "type": "number",
+                        "description": "The value stored within this node.",
+                    },
+                    
+                    "center": 
+                    {
+                        "type": "array",
+                        "description": "The (x,y) center coordinate for this circle",
+                        "items": {"type": "number"},
+                        "minItems": 2,
+                        "maxItems": 2
+                    },
+
+                    "radius": 
+                    {
+                        "type": "number",
+                        "description": "The radius of the circular node.",
+                    },
+
+                    "animation_frame": 
+                    {
+                        "type": "number",
+                        "description": "You can group drawings into frames! Sequentially group your drawings together to visualize each line of code. You must use all 20 animation frames.",
+                        "minimum":0,
+                        "maximum": 20,
+                    },
+                },
+                "required": ["value", "center", "radius", "animation_frame"]
+            }
         }
     ]
     return functions
 
 
-def gemini_tracer(api_key):
+def gemini_tracer(api_key, backup_input=""):
     drawing_tools = [types.Tool(function_declarations=declare_drawing_functions())]
 
+    sys_prompt = prompt + str(backup_input)
     #Configure Gemini to our specifications!
     config = types.GenerateContentConfig(
-        system_instruction=prompt,
-        temperature=1.5,
+        system_instruction=sys_prompt,
+        temperature=1.8,
         tools=drawing_tools,
         automatic_function_calling=types.AutomaticFunctionCallingConfig(disable=False), #These are helpful according to the documentation
         tool_config=types.ToolConfig(function_calling_config=types.FunctionCallingConfig(mode='ANY')),
     )
 
+    text = str(input_code) + str(backup_input)
+    
     #Passing in the input
-    contents = types.Content(role="user", parts=[types.Part(text=input_code)])
+    contents = types.Content(role="user", parts=[types.Part(text=text)])
 
     #Instantiate the agent
     agent = TracerAgent(api_key)
 
     #Load the agent and call trace from base_agent.py
-    Decided_Functions = agent.trace(contents, config)
+    Decided_Functions = agent.trace(contents, config, model="gemini-2.0-flash-lite")
     
     #Returns a list of function calls with their names and their arguments
     return Decided_Functions.function_calls
+
+
+
+def double_check(api_key, function_calls: str):
+    BackUp = TracerAgent(api_key)
+
+    #Configure Gemini to our specifications!
+    config = types.GenerateContentConfig(
+        system_instruction="You are programming tutor who is supposed to help an AI Agent make proper function calls to visualize students' code. The agent should use draw_text very sparringly and should draw many of the other shapes to creatively visualize code. you will be given input code and the AI Agent's recommended function and your goal is to write a detailed system prompt file in order to guide the AI Agent to make the best possible visualizations. The AI Agent already knows how to call the functions, so write your response in plain english",
+        temperature=1.7
+    )
+
+    contents = types.Content(role="user", parts=[types.Part(text=function_calls)])
+
+    response = BackUp.trace(contents, config, model="gemini-2.0-flash-lite")
+    file_path = "Agentic_AI\LLM_Files\logic_tweaks.txt"
+
+
+    with open(file_path, "w") as file:
+        file.write(response.text)
+    
+    function_list = gemini_tracer(api_key, backup_input=response)
+    return function_list
+
+
+    
+    
 
 if __name__ == '__main__':
     from dotenv import load_dotenv

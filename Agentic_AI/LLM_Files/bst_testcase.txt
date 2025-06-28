@@ -1,0 +1,51 @@
+#include <stdio.h>
+#include <stdlib.h>
+
+typedef struct tree_node{
+    struct tree_node *left;
+    struct tree_node *right;
+    int value;
+}node;
+
+node * initialize_bst_node(int value){
+    node *new_node = malloc(sizeof(node))
+    new_node->left = NULL;
+    new_node->right = NULL;
+    new_node->value = value;
+}
+
+void insert(node *root, node* new_node){
+    if (root == NULL) return;
+    if (root->value > new_node->value){
+        if (root->left == NULL)
+            new_node = root->left;
+        else{
+            node *temp = root->left;
+            new_node = root->left;
+            new_node->left = temp;
+            insert(root->left, new_node);
+        }
+    }
+    else{
+        if (root->right == NULL)
+            new_node = root->right;
+        
+        else{
+            node *temp = root->right;
+            new_node = root->right;
+            new_node->right = temp;
+            insert(root->right, new_node);
+        }
+    }
+}
+
+int main(){
+    node* root = initialize_bst_node(1);
+    
+    for (int i = 0; i < 3; i++){
+        node *new_node = initialize_bst_node((i+30/2));
+        insert(root, new_node);
+    }
+
+    return 0;
+}

@@ -6,7 +6,7 @@ pygame.init()
 #Base Shapes
 def draw_text(surface, text: str, coordinates, font_size = 20, color = cfg.BLACK):
     font = pygame.font.SysFont("ubuntu", font_size)
-    #text_surface = font.render(text, True, color)
+    #text_surface = font.render(text, True, color) #DO NOT MAKE A NEW SURFACE, DRAW TO THE INPUT SURFACE
     x, y = coordinates
     new_coordinates = (x, y + cfg.text_offset)
     text_rectangle = surface.get_rect(topleft=(new_coordinates))

@@ -6,7 +6,7 @@ import sys
 # File imports
 import configs as cfg
 from Agentic_AI.tracer_compiler import build_animation_frames, parse_function_calls
-#import text_editor
+import text_editor
 import viz_window
 from Agentic_AI.tracer_compiler import build_animation_frames, parse_function_calls
 
@@ -20,8 +20,6 @@ pygame.display.set_caption("Tracer")
 clock = pygame.time.Clock()
 
 # Game Loop Logic
-
-
 #------------------------------------------------------------------------------------------------------------------------
 # Running Variables
 running = True
@@ -38,6 +36,7 @@ current_frame_index = 0
 
 # Initialize Surfaces
 visualization_window = viz_window.create_viz_window(cfg.GREEN)
+text_editor_surface = text_editor.surface(code, cursor_pos, cursor_coords)
 
 #BUILD ANIMATION FRAMES
 animation_frames = build_animation_frames()
@@ -83,8 +82,8 @@ while running:
             elif event.key == pygame.K_RETURN:
                 print("Enter key pressed")
             elif event.key == pygame.K_BACKSPACE:
-                code[0] = code[0][:cursor_pos-1] + code[0][cursor_pos:]
-                cursor_pos = max(0, cursor_pos - 1)
+                code[cursor_pos[0]] = code[cursor_pos[0]][:cursor_pos[1]-1] + code[cursor_pos[0]][cursor_pos[1]:]
+                cursor_pos[1] = max(0, cursor_pos[1] - 1)
             elif event.key == pygame.K_CAPSLOCK:
                 print("Caps Lock key pressed")
             elif event.key == pygame.K_TAB:
@@ -130,9 +129,9 @@ while running:
             # Account for all other keys
             else:   
                 # Left side of cursor character position + new character + right side of cursor character position
-                code[cursor_pos[1]] = code[cursor_pos[1]][:cursor_pos[0]] + event.unicode + code[cursor_pos[1]][cursor_pos[0]:]
+                code[cursor_pos[0]] = code[cursor_pos[0]][:cursor_pos[1]] + event.unicode + code[cursor_pos[0]][cursor_pos[1]:]
                 cursor_coords[0] += len(event.unicode)
-                cursor_pos[0] += 1
+                cursor_pos[1] += 1
 
         elif event.type == pygame.KEYUP:
             if event.key == pygame.K_SPACE:
@@ -142,6 +141,8 @@ while running:
     screen.fill(cfg.WHITE)
 
     # Remaking and drawing surface
+    text_editor_surface = text_editor.surface(code, cursor_pos, cursor_coords)
+    screen.blit(text_editor_surface, (0,0))
 
     #Draw the animation current frame's functions to the screen
     current_frame = animation_frames[frame_index]

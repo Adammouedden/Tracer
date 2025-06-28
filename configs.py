@@ -1,6 +1,4 @@
-import os
 import pygame
-import pygame.scrap as scrap
 
 # Pygame Initialization
 pygame.init()
@@ -10,12 +8,6 @@ screen_info = pygame.display.Info()
 WIDTH = screen_info.current_w
 HEIGHT = screen_info.current_h
 WINDOW_OFFSET = 80
-#os.environ['SDL_VIDEO_WINDOW_POS'] = '0, WINDOW_OFFSET'
-#screen = pygame.display.set_mode((WIDTH, HEIGHT-WINDOW_OFFSET))
-#pygame.display.set_caption("Tracer")
-
-# Scrap Initialization
-scrap.init()
 
 # Colors
 WHITE = (255, 255, 255)
@@ -45,8 +37,4 @@ VIZ_WINDOW_HEIGHT = HEIGHT
 VIZ_WINDOW_STARTING_X = TEXT_EDITOR_WIDTH
 VIZ_WINDOW_STARTING_Y = 0
 
-<<<<<<< HEAD
 VIZ_WINDOW_STARTING_COORDINATES = (VIZ_WINDOW_STARTING_X, VIZ_WINDOW_STARTING_Y)
-=======
-VIZ_WINDOW_STARTING_COORDINATES = (VIZ_WINDOW_STARTING_X, VIZ_WINDOW_STARTING_Y)
->>>>>>> cdb0c0716b3b0e2104c8634b9ca3b3fd00f75e7f

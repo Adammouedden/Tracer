@@ -10,7 +10,8 @@ def surface(code, cursor_pos, cursor_coords, ):
 
     # Render each line of code
     for i, line in enumerate(code):
-        shapes.draw_text(text_editor_surface, line, (30,30))
+        print(line)
+        shapes.draw_text(text_editor_surface, line, (30,30), font_size, cfg.GREEN)
 
     # Drawing the cursor
     if (pygame.time.get_ticks() % 1000 < 500):

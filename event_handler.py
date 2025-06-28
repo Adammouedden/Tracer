@@ -1,12 +1,10 @@
 import pygame
-import pygame.scrap as scrap
 import configs as cfg
 
 # Pygame Initialization
 pygame.init()
 
-def handle_events(event, running, frame_index, number_of_animation_frames, animation_running, code, cursor_pos, mouse_coords):
-    scrap.init()
+def handle_events(event, running, caps_lock, frame_index, number_of_animation_frames, animation_running, code, cursor_pos, mouse_coords):
     if event.type == pygame.QUIT:
         running = False 
 
@@ -84,16 +82,21 @@ def handle_events(event, running, frame_index, number_of_animation_frames, anima
                 clipboard_data = pygame.scrap.get(pygame.SCRAP_TEXT)
                 for t in pygame.scrap.get_types():
                     print(f"DEBUG: Clipboard type: {t}\n")
+                try:
+                    pasted_text = clipboard_data.decode('utf-8')
+                    pasted_text = pasted_text.replace('\x00', '')  # Remove null characters
+                    pasted_text_length = len(pasted_text)
 
-                pasted_text = clipboard_data.decode('utf-8')
-                pasted_text = pasted_text.replace('\x00', '')  # Remove null characters
-                pasted_text_length = len(pasted_text)
-
-                # Insert the pasted text at the cursor position
-                code[cursor_pos[1]] = pasted_text
-                    
-                # Update cursor position and cursor coordinates
-                cursor_pos[1] += pasted_text_length  # Move cursor position forward
+                    # Loop over text to insert into code array
+                    for i in range(pasted_text_length):
+                        code[cursor_pos[0]][cursor_pos[1+i]] = pasted_text[i] # Only deal with the first line for simplicity
+                        
+                        # Update cursor position and cursor coordinates
+                        cursor_pos[1] += 1  # Move cursor position forward
+                except UnicodeDecodeError:
+                        print("Could not decode clipboard data as UTF-8.")
+                except Exception as e:
+                    print(f"An unexpected error occurred during paste: {e}")
 
         # Account for all other keys
         else: 

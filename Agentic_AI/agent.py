@@ -68,7 +68,7 @@ def declare_drawing_functions():
                     "animation_frame": 
                     {
                         "type": "number",
-                        "description": "You can group drawings into frames! Sequentially group your drawings together to visualize each line of code",
+                        "description": "You can group drawings into frames! Sequentially group your drawings together to visualize each line of code. You must use all 20 animation frames.",
                         "minimum":0,
                         "maximum": 20,
                     },
@@ -112,7 +112,7 @@ def declare_drawing_functions():
                     "animation_frame": 
                     {
                         "type": "number",
-                        "description": "You can group drawings into frames! Sequentially group your drawings together to visualize each line of code",
+                        "description": "You can group drawings into frames! Sequentially group your drawings together to visualize each line of code, You must use all 20 animation frames.",
                         "minimum":0,
                         "maximum": 20,
                     },
@@ -150,7 +150,7 @@ def declare_drawing_functions():
                     "animation_frame": 
                     {
                         "type": "number",
-                        "description": "You can group drawings into frames! Sequentially group your drawings together to visualize each line of code",
+                        "description": "You can group drawings into frames! Sequentially group your drawings together to visualize each line of code. You must use all 20 animation frames.",
                         "minimum":0,
                         "maximum": 20,
                     },
@@ -163,24 +163,28 @@ def declare_drawing_functions():
 
 
 def gemini_tracer(api_key):
-    drawing_tools = types.Tool(function_declarations=declare_drawing_functions())
+    drawing_tools = [types.Tool(function_declarations=declare_drawing_functions())]
 
+    #Configure Gemini to our specifications!
     config = types.GenerateContentConfig(
         system_instruction=prompt,
-        temperature=1.7,
-        tools=[drawing_tools],
+        temperature=1.5,
+        tools=drawing_tools,
         automatic_function_calling=types.AutomaticFunctionCallingConfig(disable=False), #These are helpful according to the documentation
         tool_config=types.ToolConfig(function_calling_config=types.FunctionCallingConfig(mode='ANY')),
-        )
-
-    agent = TracerAgent(api_key)
-
-    response = agent.trace(
-        contents=input_code,
-        config=config,
     )
 
-    return response.function_calls
+    #Passing in the input
+    contents = types.Content(role="user", parts=[types.Part(text=input_code)])
+
+    #Instantiate the agent
+    agent = TracerAgent(api_key)
+
+    #Load the agent and call trace from base_agent.py
+    Decided_Functions = agent.trace(contents, config)
+    
+    #Returns a list of function calls with their names and their arguments
+    return Decided_Functions.function_calls
 
 if __name__ == '__main__':
     from dotenv import load_dotenv

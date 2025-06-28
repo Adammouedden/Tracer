@@ -5,6 +5,7 @@ import sys
 
 # File imports
 import configs as cfg
+from Agentic_AI.tracer_compiler import build_animation_frames, parse_function_calls
 #import text_editor
 import viz_window
 
@@ -35,7 +36,7 @@ current_frame_index = 0
 # Initialize Surfaces
 visualization_window = viz_window.create_viz_window(cfg.GREEN)
 
-
+animation_frames = build_animation_frames()
 print(animation_frames)
 
 # Game Loop

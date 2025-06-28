@@ -10,7 +10,7 @@ api_key = os.getenv("GEMINI_KEY")
 def build_animation_frames():
     functions = gemini_tracer(api_key)
     
-    animation_frames = [[] for i in range(21)]
+    animation_frames = [[] for _ in range(21)]
     frame_index = 0
 
     for fn in functions:

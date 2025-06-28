@@ -1,0 +1,83 @@
+import pygame
+from Agentic_AI.tracer_compiler import build_animation_frames
+import configs as cfg
+
+class Button:
+    def __init__(self, x, y, width, height, icon_char,color, hover_color, action=None, icon_font_size=None):
+        self.rect = pygame.Rect(x,y,width,height)
+        self.icon_char = icon_char
+        self.color = color
+        self.current_color = color
+        self.hover_color = color
+        self.action = action
+
+        # Dynamically change the size
+        if icon_font_size is None:
+            self.font = pygame.font.Font(None, int(height * 0.7)) # Icon takes about 70% of button height
+        else:
+            self.font = pygame.font.Font(None, icon_font_size)
+
+    def draw(self, surface):
+        mouse_pos = pygame.mouse.get_pos()
+        if self.rect.collidepoint(mouse_pos):
+            self.current_color = self.hover_color
+        else:
+            self.current_color = self.color
+
+        pygame.draw.rect(surface, self.current_color, self.rect, border_radius=10)
+
+        icon_surface = self.font.render(self.icon_char, True, cfg.BLACK)
+        icon_rect = icon_surface.get_rect(center=self.rect.center)
+
+        surface.blit(icon_surface, icon_rect)
+
+    def handleEvent(self, event):
+        if self.rect.collidepoint(event.pos):
+            if self.action:
+                self.action()
+
+
+
+# Button functions
+def runCode():
+    print("run code pressed")
+    # build_animation_frames()
+
+def viz_forward():
+    print("fowardVis Pressed")
+
+def viz_backward():
+    print("backVis Pressed")
+
+# Button instances
+runButton = Button(
+    x = 510,
+    y = 1060,
+    width = cfg.button_width, height= cfg.button_height,
+    icon_char = "P", # Play icon
+    color = cfg.WHITE, hover_color=cfg.HIGHLIGHT_YELLOW,
+    action = runCode
+)
+
+forwardButton = Button(
+    x = 1200,
+    y = 1050,
+    width = cfg.button_width, height = cfg.button_height,
+    icon_char = "N", # Play icon
+    color = cfg.WHITE, hover_color=cfg.HIGHLIGHT_YELLOW,
+    action = viz_forward
+)
+
+backButton = Button(
+    x = 1270,
+    y = 1050,
+    width = cfg.button_width, height= cfg.button_height,
+    icon_char = "B", # Play icon
+    color = cfg.WHITE, hover_color=cfg.HIGHLIGHT_YELLOW,
+    action = viz_backward
+)
+
+
+text_editor_buttons = [runButton]
+viz_window_buttons = [forwardButton, backButton]
+all_buttons = [runButton, forwardButton, backButton]

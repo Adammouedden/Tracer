@@ -13,11 +13,11 @@ def surface(code, cursor_pos):
     # Render each line of code
     for i, line in enumerate(code):
         print(line)
-        shapes.draw_text(text_editor_surface, line, (30,30), font_size, cfg.GREEN)
+        shapes.draw_text(text_editor_surface, line, (OFFSET, OFFSET + (i*font_size)), font_size, cfg.GREEN)
 
     # Drawing the cursor
     if (pygame.time.get_ticks() % 1000 < 500):
-        cursor_rect = pygame.Rect(OFFSET+font.size(code[0][:cursor_pos[1]])[0], OFFSET, 2, font_size)
+        cursor_rect = pygame.Rect(OFFSET+font.size(code[cursor_pos[0]][:cursor_pos[1]])[0], OFFSET + (cursor_pos[0]*font_size), 2, font_size)
         pygame.draw.rect(text_editor_surface, cfg.GREEN, cursor_rect)
 
     return text_editor_surface

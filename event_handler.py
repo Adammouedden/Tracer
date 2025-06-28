@@ -4,7 +4,7 @@ import configs as cfg
 # Pygame Initialization
 pygame.init()
 
-def handle_events(event, running, frame_index, number_of_animation_frames, animation_running, code, cursor_pos, cursor_coords, mouse_coords):
+def handle_events(event, running, frame_index, number_of_animation_frames, animation_running, code, cursor_pos, mouse_coords):
     if event.type == pygame.QUIT:
         running = False 
 
@@ -75,7 +75,6 @@ def handle_events(event, running, frame_index, number_of_animation_frames, anima
                         
                         # Update cursor position and cursor coordinates
                         cursor_pos[1] += 1  # Move cursor position forward
-                        cursor_coords[1] += pygame.font.Font.size(cfg.font, pasted_text[i])[0]  # Update text coordinates
                 except UnicodeDecodeError:
                         print("Could not decode clipboard data as UTF-8.")
                 except Exception as e:
@@ -87,4 +86,4 @@ def handle_events(event, running, frame_index, number_of_animation_frames, anima
             code[cursor_pos[0]] = code[cursor_pos[0]][:cursor_pos[1]] + event.unicode + code[cursor_pos[0]][cursor_pos[1]:]
             cursor_pos[1] += 1
 
-    return running, frame_index, animation_running, code, cursor_pos, cursor_coords, mouse_coords
+    return running, frame_index, animation_running, code, cursor_pos, mouse_coords

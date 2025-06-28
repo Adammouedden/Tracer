@@ -1,8 +1,7 @@
 import pygame
-import config as cfg
 
 pygame.init()
-
+BLACK = (0,0,0)
 
 text_offset = 30
 

@@ -9,7 +9,6 @@ WIDTH = screen_info.current_w
 HEIGHT = screen_info.current_h
 WINDOW_OFFSET = 80
 
-
 # Colors
 WHITE = (255, 255, 255)
 BLACK = (0, 0, 0)
@@ -29,6 +28,7 @@ line_width = 3
 arrow_head_distance = 15
 
 #Text Editor Dimensions
+TEXT_EDITOR_WIDTH = WIDTH * 0.3
 TEXT_EDITOR_WIDTH = WIDTH * 0.3
 
 #Viz window dimensions

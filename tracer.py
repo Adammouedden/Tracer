@@ -17,8 +17,8 @@ animation_running = False
 
 # Position Variables
 mouse_coords = [0, 0]
-text_pos = [0, 0]
-text_coords = [0, 0]
+text_pos = [0, 0]   # Line number, character position
+text_coords = [0, 30]  # X, Y coordinates for text rendering
 
 # Initialize Game Variables
 code = [""]
@@ -72,7 +72,11 @@ while running:
                 print("Shift key pressed")  
             elif event.key == pygame.K_LCTRL or event.key == pygame.K_RCTRL:
                 print("Control key pressed")
-            
+            else:   
+                # Left side of cursor character position + new character + right side of cursor character position
+                code[text_pos[1]] = code[text_pos[1]][:text_pos[0]] + event.unicode + code[text_pos[1]][text_pos[0]:]
+                text_coords[0] += len(event.unicode)
+                text_pos[0] += 1
         elif event.type == pygame.KEYUP:
             if event.key == pygame.K_SPACE:
                 print("Space key released")

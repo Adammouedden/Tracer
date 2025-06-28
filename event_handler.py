@@ -6,7 +6,6 @@ from buttons import all_buttons
 pygame.init()
 
 def handle_events(event, running, caps_lock, frame_index, number_of_animation_frames, animation_running, code, cursor_pos, mouse_coords):
-    scrap.init()
     if event.type == pygame.QUIT:
         running = False 
 
@@ -82,7 +81,7 @@ def handle_events(event, running, caps_lock, frame_index, number_of_animation_fr
                     code = code[:cursor_pos[0]-1] + [code[cursor_pos[0]-1] + code[cursor_pos[0]]] + code[cursor_pos[0]+1:]
                     #RESET CURSOR POSITION
                     cursor_pos[0] = cursor_pos[0] - 1
-                    cursor_pos[1] = length_of_previous_line  # Move to the end of the previous line
+                    cursor_pos[1] = length_of_previous_line  # Move to the end of the previous line""
 
             # If the cursor is not at the start of the line, just move the cursor back
             else:

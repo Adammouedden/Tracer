@@ -23,6 +23,8 @@ screen = pygame.display.set_mode((cfg.WIDTH, cfg.HEIGHT - cfg.WINDOW_OFFSET))
 pygame.display.set_caption("Tracer")
 clock = pygame.time.Clock()
 
+pygame.scrap.init()  # Initialize the clipboard module
+
 # Game Loop Logic
 #------------------------------------------------------------------------------------------------------------------------
 # Running Variables
@@ -45,10 +47,12 @@ text_window = basic_tiling_manager.create_text_window()
 
 
 #BUILD ANIMATION FRAMES
-animation_frames = build_animation_frames()
+"""animation_frames = build_animation_frames()
 print(animation_frames)
-number_of_animation_frames = len(animation_frames)
+number_of_animation_frames = len(animation_frames)"""
 frame_index = 0
+animation_frames = []
+number_of_animation_frames = 0
 
 # Game Loop
 while running:
@@ -64,12 +68,13 @@ while running:
     text_editor_surface = text_editor.surface(code, cursor_pos)
     screen.blit(text_editor_surface, (0,0))
 
+    """
     #Draw the animation current frame's functions to the screen
     current_frame = animation_frames[frame_index]
     parse_function_calls(visualization_window, text_window, current_frame)
     screen.blit(visualization_window, (cfg.VIZ_WINDOW_STARTING_COORDINATES))
     visualization_window.blit(text_window, (0,cfg.VIZ_WINDOW_HEIGHT))
-    text_window.fill(cfg.BLUE)
+    text_window.fill(cfg.BLUE)"""
 
     # Flipping the display
     pygame.display.update()

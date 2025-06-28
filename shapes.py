@@ -1,5 +1,5 @@
 import pygame
-
+import config as cfg
 
 pygame.init()
 
@@ -15,7 +15,8 @@ def draw_text(surface, text: str, coordinates, font_size = 20, color = BLACK):
     text_rectangle = text_surface.get_rect(topleft=(new_coordinates))
     surface.blit(text_surface, text_rectangle)
 
-def draw_rectangle(surface, coordinates, rectangle_width, rectangle_height, border=0, color=BLACK):
-
-def draw_line(surface, start_pos, end_pos, color=BLACK):
-    pygame.draw.line(surface)
+# def draw_rectangle(surface, coordinates, rectangle_width, rectangle_height, border=0, color=BLACK):
+#
+#
+# def draw_line(surface, start_pos, end_pos, color=BLACK):
+#     pygame.draw.line(surface)

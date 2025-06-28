@@ -16,7 +16,7 @@ with open(prompt_path, "r") as file:
 
 
 def declare_functions():
-    functions = [
+    functions = {
 
         "name": "draw_text",
         "description": "DESCRIBE DRAW TEXT",
@@ -137,9 +137,9 @@ def declare_functions():
 
             "required": ["text", "coordinates", "font_size", "animation_frame"],
         },
-
-    ]
-
+        
+    }
+    
     return functions
 
 

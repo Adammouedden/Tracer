@@ -7,10 +7,11 @@ import os
 load_dotenv()
 api_key = os.getenv("GEMINI_KEY")
 
+
 def build_animation_frames():
     functions = gemini_tracer(api_key)
     
-    animation_frames = [[] for i in range(21)]
+    animation_frames = [[] for _ in range(21)]
     frame_index = 0
 
     for fn in functions:
@@ -30,10 +31,18 @@ def parse_function_calls(surface, frame):
                 shapes.draw_text(surface, text, coordinates, font_size)
                 
             case "draw_node":
-                return
+                value = fn.args["value"]
+                coordinates = fn.args["coordinates"]
+                rectangle_width = fn.args["rectangle_width"]
+                rectangle_height = fn.args["rectangle_height"]
+                error = fn.args["error"]
+                highlight = fn.args["highlight"]
+                shapes.draw_node(surface, value, coordinates, rectangle_width, rectangle_height)
 
             case "draw_arrow":
-                return
+                start_pos = fn.args["start_pos"]
+                end_pos = fn.args["end_pos"]
+                shapes.draw_arrow(surface, start_pos, end_pos)
 
 
    

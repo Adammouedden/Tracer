@@ -11,36 +11,60 @@ with open(prompt_path, "r") as file:
     prompt = file.read()
 
 
-def declare_functions():
+#This function declares the drawing functions in the OpenAPI Schema, which is what Gemini requires for it's configuration
+def declare_drawing_functions():
     functions = [
         {
-            "name": "draw_text",
-            "description": "DESCRIBE DRAW TEXT",
+            "name": "draw_node",
+            "description": "Custom pygame drawing function. Draws a node with text value inside, the node can be resized by passing in coordinates and there is a boolean parameter to highlight the node.",
             "parameters": 
             {
                 "type": "object",
-                "properties": {
-
-                    "text": {
-                        "type": "string",
-                        "description": "DESCRIPTION",
-                        "maxLength": 2
-
+                "properties": 
+                {
+                    "value": 
+                    {
+                        "type": "number",
+                        "description": "The value that will go within the node"
                     },
-
-                    "coordinates": {
+                    
+                    "coordinates": 
+                    {
                         "type": "array",
-                        "description": "(X,Y) coordinates description",
+                        "description": "The (x,y) coordinates for where you want to draw the node within the screen",
                         "items": {"type": "number"},
                         "minItems": 2,
-                        "maxItems": 2
+                        "maxItems": 2,
                     },
-
-                    "font_size": {
-                        "type": "number",
-                        "description": "Size of your text",
+                        
+                    "rectangle_width": 
+                    {
+                        "type": "integer",
+                        "description": "The width of the rectangle. The minimum width is 40",
+                        "minimum": 50,
+                        "maximum": 150,
                     },
-
+                    
+                    "rectangle_height": 
+                        {
+                        "type": "integer",
+                        "description": "The height of the rectangle.",
+                        "minimum": 50,
+                        "maximum": 150
+                    },
+                        
+                    "highlight": 
+                    {
+                        "type": "boolean",
+                        "description": "To highlight the node, set to true"
+                    },
+                    
+                    "error": 
+                    {
+                        "type": "boolean",
+                        "description": "For a node with errors, set to true and we will highlight it red"
+                    },
+                    
                     "animation_frame": 
                     {
                         "type": "number",
@@ -48,18 +72,98 @@ def declare_functions():
                         "minimum":0,
                         "maximum": 20,
                     },
-
                 },
+                "required": ["value", "coordinates", "rectangle_width", "rectangle_height", "error", "highlight", "animation_frame"]
+            }
+        },
 
-                "required": ["text", "coordinates", "font_size", "animation_frame"],
-            },
-        },   
+        {
+            "name": "draw_text",
+            "description": "Custom pygame drawing function. Draws a text anywhere on the screen",
+            "parameters": 
+            {
+                "type": "object",
+                "properties": 
+                {
+                    "text": 
+                    {
+                        "type": "string",
+                        "description": "Only variable names are allowed",
+                        "maxLength": 5,
+                    },
+                    
+                    "coordinates": 
+                    {
+                        "type": "array",
+                        "description": "The (x,y) coordinates for where you want to draw the node within the screen",
+                        "items": {"type": "number"},
+                        "minItems": 2,
+                        "maxItems": 2
+                    },
+                    
+                    "font_size": 
+                    {
+                        "type": "number",
+                        "description": "The size of the font in pixels for the text you are drawing",
+                        "minimum": 30,
+                        "maximum": 50,
+                    },
+                    
+                    "animation_frame": 
+                    {
+                        "type": "number",
+                        "description": "You can group drawings into frames! Sequentially group your drawings together to visualize each line of code",
+                        "minimum":0,
+                        "maximum": 20,
+                    },
+                },
+                "required": ["text", "coordinates", "font_size", "animation_frame"]
+            }
+        },
+
+        {
+            "name": "draw_arrow",
+            "description": "Custom pygame drawing function. Draws an arrow anywhere on the screen",
+            "parameters": 
+            {
+                "type": "object",
+                "properties": 
+                {
+                    "start_pos": 
+                    {
+                        "type": "array",
+                        "description": "The (x,y) coordinate for the starting point of the arrow",
+                        "items": {"type": "number"},
+                        "minItems": 2,
+                        "maxItems": 2
+                    },
+                    
+                    "end_pos": 
+                    {
+                        "type": "array",
+                        "description": "The (x,y) coordinates for the ending point of the arrow, the arrow's tip",
+                        "items": {"type": "number"},
+                        "minItems": 2,
+                        "maxItems": 2
+                    },
+                    
+                    "animation_frame": 
+                    {
+                        "type": "number",
+                        "description": "You can group drawings into frames! Sequentially group your drawings together to visualize each line of code",
+                        "minimum":0,
+                        "maximum": 20,
+                    },
+                },
+                "required": ["start_pos", "end_pos", "animation_frame"]
+            }
+        }
     ]
     return functions
 
 
 def gemini_tracer(api_key):
-    drawing_tools = types.Tool(function_declarations=declare_functions())
+    drawing_tools = types.Tool(function_declarations=declare_drawing_functions())
 
     config = types.GenerateContentConfig(
         system_instruction=prompt,

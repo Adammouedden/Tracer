@@ -1,6 +1,5 @@
 import pygame
 import pygame.scrap as scrap
-import pygame.scrap as scrap
 import configs as cfg
 
 # Pygame Initialization
@@ -42,7 +41,7 @@ def handle_events(event, running, caps_lock, frame_index, number_of_animation_fr
                 if cursor_pos[0] > 0:
                     cursor_pos[0] -= 1
                     cursor_pos[1] = len(code[cursor_pos[0]])  # Move to the end of the previous line
-            #frame_index = (frame_index - 1) % number_of_animation_frames
+            frame_index = (frame_index - 1) % number_of_animation_frames
         elif event.key == pygame.K_RIGHT:
             if cursor_pos[1] < len(code[cursor_pos[0]]):
                 cursor_pos[1] += 1  # Move cursor right
@@ -50,7 +49,7 @@ def handle_events(event, running, caps_lock, frame_index, number_of_animation_fr
                 if cursor_pos[0] < len(code) - 1:
                     cursor_pos[0] += 1
                     cursor_pos[1] = 0  # Move to the start of the next line
-            #frame_index = (frame_index + 1) % number_of_animation_frames
+            frame_index = (frame_index + 1) % number_of_animation_frames
         elif event.key == pygame.K_RETURN:
             if cursor_pos[1] < len(code[cursor_pos[0]]):
                 # Split the current line at the cursor position
@@ -91,16 +90,21 @@ def handle_events(event, running, caps_lock, frame_index, number_of_animation_fr
                 clipboard_data = pygame.scrap.get(pygame.SCRAP_TEXT)
                 for t in pygame.scrap.get_types():
                     print(f"DEBUG: Clipboard type: {t}\n")
+                try:
+                    pasted_text = clipboard_data.decode('utf-8')
+                    pasted_text = pasted_text.replace('\x00', '')  # Remove null characters
+                    pasted_text_length = len(pasted_text)
 
-                pasted_text = clipboard_data.decode('utf-8')
-                pasted_text = pasted_text.replace('\x00', '')  # Remove null characters
-                pasted_text_length = len(pasted_text)
-
-                # Insert the pasted text at the cursor position
-                code[cursor_pos[1]] = pasted_text
-                    
-                # Update cursor position and cursor coordinates
-                cursor_pos[1] += pasted_text_length  # Move cursor position forward
+                    # Loop over text to insert into code array
+                    for i in range(pasted_text_length):
+                        code[cursor_pos[0]][cursor_pos[1+i]] = pasted_text[i] # Only deal with the first line for simplicity
+                        
+                        # Update cursor position and cursor coordinates
+                        cursor_pos[1] += 1  # Move cursor position forward
+                except UnicodeDecodeError:
+                        print("Could not decode clipboard data as UTF-8.")
+                except Exception as e:
+                    print(f"An unexpected error occurred during paste: {e}")
 
         # Account for all other keys
         else: 

@@ -22,11 +22,20 @@ def handle_events(event, running, caps_lock, frame_index, number_of_animation_fr
             print("Mouse wheel scrolled up at", mouse_coords)
         elif event.button == 5:  # Scroll down
             print("Mouse wheel scrolled down at", mouse_coords)
-
+            
         for buttons in all_buttons:
             buttons.handleEvent(event)
 
     elif event.type == pygame.KEYDOWN:
+
+        '''
+        if event.key == pygame.K_PAGEUP:
+            frame_index = (frame_index + 1) % number_of_animation_frames
+            print(f"Frame: {frame_index}/{number_of_animation_frames}")
+        if event.key == pygame.K_PAGEDOWN:
+            frame_index = (frame_index - 1) % number_of_animation_frames
+            print(f"Frame: {frame_index}/{number_of_animation_frames}")
+        '''
         if event.key == pygame.K_ESCAPE:
             running = False
         elif event.key == pygame.K_UP:
@@ -75,6 +84,7 @@ def handle_events(event, running, caps_lock, frame_index, number_of_animation_fr
         elif event.key == pygame.K_TAB:
             print("Tab key pressed")
         
+
         # --- Copy/Paste/Cut Logic ---  
         elif (event.mod & pygame.KMOD_CTRL): # Check for Control key
             if event.key == pygame.K_c: # Letter C

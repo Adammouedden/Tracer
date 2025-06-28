@@ -7,7 +7,6 @@ import sys
 import configs as cfg
 #import text_editor
 import viz_window
-from Agentic_AI.tracer_compiler import build_animation_frames, parse_function_calls
 
 # Pygame Initialization
 pygame.init()
@@ -26,8 +25,8 @@ animation_running = False
 
 # Position Variables
 mouse_coords = [0, 0]
-text_pos = [0, 0]   # Line number, character position
-text_coords = [0, 30]  # X, Y coordinates for text rendering
+cursor_pos = [0, 0]   # Line number, character position
+cursor_coords = [0, 30]  # X, Y coordinates for text rendering
 
 # Initialize Game Variables
 code = [""]
@@ -36,11 +35,8 @@ current_frame_index = 0
 # Initialize Surfaces
 visualization_window = viz_window.create_viz_window(cfg.GREEN)
 
-#Build animation frames
-animation_frames = build_animation_frames()
-print(animation_frames)
-frame_index = 0
-number_of_animation_frames = len(animation_frames)
+
+#print(animation_frames)
 
 # Game Loop
 while running:
@@ -73,15 +69,13 @@ while running:
                 print("Down arrow key pressed")
             elif event.key == pygame.K_LEFT:
                 print("Left arrow key pressed")
-                frame_index = (frame_index - 1) % number_of_animation_frames
             elif event.key == pygame.K_RIGHT:
                 print("Right arrow key pressed")
-                frame_index = (frame_index + 1) % number_of_animation_frames
             elif event.key == pygame.K_RETURN:
                 print("Enter key pressed")
             elif event.key == pygame.K_BACKSPACE:
-                code[0] = code[0][:text_pos-1] + code[0][text_pos:]
-                text_pos = max(0, text_pos - 1)
+                code[cursor_pos[0]] = code[cursor_pos[0]][:cursor_pos-1] + code[cursor_pos[0]][cursor_pos:]
+                cursor_pos = max(0, cursor_pos - 1)
             elif event.key == pygame.K_CAPSLOCK:
                 print("Caps Lock key pressed")
             elif event.key == pygame.K_TAB:
@@ -92,9 +86,9 @@ while running:
                 print("Control key pressed")
             else:   
                 # Left side of cursor character position + new character + right side of cursor character position
-                code[text_pos[1]] = code[text_pos[1]][:text_pos[0]] + event.unicode + code[text_pos[1]][text_pos[0]:]
-                text_coords[0] += len(event.unicode)
-                text_pos[0] += 1
+                code[cursor_pos[1]] = code[cursor_pos[1]][:cursor_pos[0]] + event.unicode + code[cursor_pos[1]][cursor_pos[0]:]
+                cursor_coords[0] += len(event.unicode)
+                cursor_pos[0] += 1
 
         elif event.type == pygame.KEYUP:
             if event.key == pygame.K_SPACE:
@@ -104,11 +98,7 @@ while running:
     screen.fill(cfg.WHITE)
 
     # Remaking and drawing surface
-
-    #Draw the animation current frame's functions to the screen
-    current_frame = animation_frames[frame_index]
-    parse_function_calls(visualization_window, current_frame)
-    screen.blit(visualization_window, (cfg.VIZ_WINDOW_STARTING_COORDINATES))
+    
 
     # Flipping the display
     pygame.display.update()

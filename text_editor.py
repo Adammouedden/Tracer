@@ -12,7 +12,6 @@ def surface(code, cursor_pos):
 
     # Render each line of code
     for i, line in enumerate(code):
-        print(line)
         shapes.draw_text(text_editor_surface, line, (OFFSET, OFFSET + (i*font_size)), font_size, cfg.GREEN)
 
     # Drawing the cursor

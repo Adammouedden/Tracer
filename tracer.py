@@ -29,10 +29,10 @@ animation_running = False
 
 # Position Variables
 mouse_coords = [0, 0]
-cursor_pos = [1, 0]   # Line number, character position
+cursor_pos = [0, 0]   # Line number, character position
 
 # Initialize Game Variables
-code = ["hello", ""]
+code = [""]
 current_frame_index = 0
 
 # Initialize Surfaces

@@ -10,6 +10,7 @@ from event_handler import handle_events
 from Agentic_AI.tracer_compiler import build_animation_frames, parse_function_calls
 import text_editor
 import viz_window
+from buttons import all_buttons
 from Agentic_AI.tracer_compiler import build_animation_frames, parse_function_calls
 
 # Pygame Initialization
@@ -32,7 +33,7 @@ mouse_coords = [0, 0]
 cursor_pos = [1, 0]   # Line number, character position
 
 # Initialize Game Variables
-code = ["hello", ""]
+code = ["", ""]
 current_frame_index = 0
 
 # Initialize Surfaces

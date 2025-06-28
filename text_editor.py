@@ -1,7 +1,7 @@
 import pygame
 import configs as cfg
 import shapes
-
+from buttons import text_editor_buttons
 OFFSET = 30  # Offset for text rendering
 
 def surface(code, cursor_pos):
@@ -19,5 +19,8 @@ def surface(code, cursor_pos):
     if (pygame.time.get_ticks() % 1000 < 500):
         cursor_rect = pygame.Rect(OFFSET+font.size(code[cursor_pos[0]][:cursor_pos[1]])[0], OFFSET + (cursor_pos[0]*font_size), 2, font_size)
         pygame.draw.rect(text_editor_surface, cfg.GREEN, cursor_rect)
+
+    for buttons in text_editor_buttons:
+        buttons.draw(text_editor_surface)
 
     return text_editor_surface

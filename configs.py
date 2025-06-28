@@ -9,6 +9,9 @@ WIDTH = screen_info.current_w
 HEIGHT = screen_info.current_h
 WINDOW_OFFSET = 80
 
+screen = pygame.display.set_mode((WIDTH, HEIGHT - WINDOW_OFFSET))
+pygame.display.set_caption("Tracer") # Set the window title
+
 # Colors
 WHITE = (255, 255, 255)
 BLACK = (0, 0, 0)
@@ -22,6 +25,12 @@ HIGHLIGHT_RED = (255, 0, 0, 100)
 font_size = 100
 font = pygame.font.SysFont("ubuntu", font_size)
 text_offset = 5
+
+# Button sizing
+button_width = 100 
+button_height = 100 
+button_spacing = 120 
+
 
 # Shape Dimensions
 line_width = 3

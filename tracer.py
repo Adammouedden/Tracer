@@ -26,13 +26,14 @@ clock = pygame.time.Clock()
 # Running Variables
 running = True
 animation_running = False
+caps_lock = False
 
 # Position Variables
 mouse_coords = [0, 0]
-cursor_pos = [1, 0]   # Line number, character position
+cursor_pos = [0, 0]   # Line number, character position
 
 # Initialize Game Variables
-code = ["hello", ""]
+code = [""]
 current_frame_index = 0
 
 # Initialize Surfaces
@@ -53,8 +54,8 @@ animation_frames = []
 while running:
     # Event handling
     for event in pygame.event.get():  
-        running, frame_index, animation_running, code, cursor_pos, mouse_coords \
-        = handle_events(event, running, frame_index, number_of_animation_frames, animation_running, code, cursor_pos, mouse_coords)
+        running, caps_lock, frame_index, animation_running, code, cursor_pos, mouse_coords \
+        = handle_events(event, running, caps_lock, frame_index, number_of_animation_frames, animation_running, code, cursor_pos, mouse_coords)
 
     # Drawing Screen   
     screen.fill(cfg.WHITE)
@@ -71,7 +72,7 @@ while running:
     # Flipping the display
     pygame.display.update()
     # Cap the frame rate
-    clock.tick(4)
+    clock.tick(cfg.FPS)
 
 # Quit Pygame
 pygame.quit()

@@ -36,7 +36,7 @@ current_frame_index = 0
 # Initialize Surfaces
 visualization_window = viz_window.create_viz_window(cfg.GREEN)
 
-#Build animation frames
+#BUILD ANIMATION FRAMES
 animation_frames = build_animation_frames()
 print(animation_frames)
 frame_index = 0

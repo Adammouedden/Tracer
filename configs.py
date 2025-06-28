@@ -1,5 +1,6 @@
 import os
 import pygame
+import pygame.scrap as scrap
 
 # Pygame Initialization
 pygame.init()
@@ -12,6 +13,9 @@ WINDOW_OFFSET = 80
 #os.environ['SDL_VIDEO_WINDOW_POS'] = '0, WINDOW_OFFSET'
 #screen = pygame.display.set_mode((WIDTH, HEIGHT-WINDOW_OFFSET))
 #pygame.display.set_caption("Tracer")
+
+# Scrap Initialization
+scrap.init()
 
 # Colors
 WHITE = (255, 255, 255)

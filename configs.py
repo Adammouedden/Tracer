@@ -32,7 +32,7 @@ text_offset = 5
 button_width = 50
 button_height = 50 
 button_spacing = 60 
-
+button_margin = 15
 
 # Shape Dimensions
 line_width = 3

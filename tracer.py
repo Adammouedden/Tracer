@@ -24,8 +24,6 @@ screen = pygame.display.set_mode((cfg.WIDTH, cfg.HEIGHT - cfg.WINDOW_OFFSET))
 pygame.display.set_caption("Tracer")
 clock = pygame.time.Clock()
 
-pygame.scrap.init()  # Initialize the clipboard module
-
 # Game Loop Logic
 #------------------------------------------------------------------------------------------------------------------------
 # Running Variables

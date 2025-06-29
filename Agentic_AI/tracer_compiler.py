@@ -25,13 +25,15 @@ def build_animation_frames(input_code):
 
 def parse_function_calls(viz_surface, text_surface, frame):
     for fn in frame:
+        printing_text_count = 0
         match fn.name:
-            case "draw_text":
-                text = fn.args["text"]
+            case "draw_text" if printing_text_count == 0:
+                text = fn.args["text"] 
                 coordinates = fn.args["coordinates"]
                 coordinates = (0,0)
                 font_size = fn.args["font_size"]
                 shapes.draw_text(text_surface, text, coordinates, font_size)
+                printing_text_count += 1
                 
             case "draw_node":
                 value = fn.args["value"]

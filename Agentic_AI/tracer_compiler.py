@@ -8,10 +8,10 @@ load_dotenv()
 api_key = os.getenv("GEMINI_KEY")
 
 
-def build_animation_frames():
-    initial_functions = gemini_tracer(api_key)
+def build_animation_frames(input_code):
+    initial_functions = gemini_tracer(api_key, input_code)
     initial_functions = str(initial_functions)
-    functions = double_check(api_key, initial_functions)
+    functions = double_check(api_key, input_code, initial_functions)
     
     animation_frames = [[] for _ in range(max_frames)]
     frame_index = 0

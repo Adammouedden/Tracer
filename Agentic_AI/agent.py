@@ -217,7 +217,7 @@ def declare_drawing_functions():
     return functions
 
 
-def gemini_tracer(api_key, backup_input=""):
+def gemini_tracer(api_key, input_code, backup_input=""):
     drawing_tools = [types.Tool(function_declarations=declare_drawing_functions())]
 
     sys_prompt = prompt + str(backup_input)
@@ -246,7 +246,7 @@ def gemini_tracer(api_key, backup_input=""):
 
 
 
-def double_check(api_key, function_calls: str):
+def double_check(api_key, input_code, function_calls: str):
     BackUp = TracerAgent(api_key)
 
     #Configure Gemini to our specifications!
@@ -264,7 +264,7 @@ def double_check(api_key, function_calls: str):
     with open(file_path, "w") as file:
         file.write(response.text)
     
-    function_list = gemini_tracer(api_key, backup_input=response)
+    function_list = gemini_tracer(api_key, input_code, backup_input=response)
     return function_list
 
 

@@ -15,7 +15,6 @@ def handle_events(event, running, caps_lock, frame_index, number_of_animation_fr
     visible_lines = int(cfg.HEIGHT / line_height)
     max_scroll = max(0, len(code) - visible_lines)
 
-
     if event.type == pygame.QUIT:
         running = False 
 
@@ -42,9 +41,21 @@ def handle_events(event, running, caps_lock, frame_index, number_of_animation_fr
             print("Mouse wheel scrolled down at", mouse_coords)
             
         for buttons in all_buttons:
-            print(f"(OG) Frame: {frame_index}/{number_of_animation_frames}")
+            #print(f"(OG) Frame: {frame_index}/{number_of_animation_frames}")
+            #frame_index = buttons.handleEvent(event, frame_index, number_of_animation_frames)  # Pass frame_index
 
-            frame_index = buttons.handleEvent(event, frame_index, number_of_animation_frames)  # Pass frame_index
+            match buttons.icon_char:
+                case "B":
+                    frame_index = buttons.handleEvent(event, frame_index, number_of_animation_frames, code) 
+                
+                case "F":
+                    frame_index = buttons.handleEvent(event, frame_index, number_of_animation_frames, code) 
+
+                case "R":
+                    print(f"FRAME: {frame_index}, NUM OF ANIM: {number_of_animation_frames}, CODE: {code}")
+                    animation_frames = buttons.handleEvent(event, frame_index, number_of_animation_frames, code)
+                    print(animation_frames)
+                
 
     elif event.type == pygame.KEYDOWN:
         # --- SCROLL KEYBOARD LOGIC ---
@@ -178,5 +189,6 @@ def handle_events(event, running, caps_lock, frame_index, number_of_animation_fr
             # Left side of cursor character position + new character + right side of cursor character position
             code[cursor_pos[0]] = code[cursor_pos[0]][:cursor_pos[1]] + event.unicode + code[cursor_pos[0]][cursor_pos[1]:]
             cursor_pos[1] += 1
+
 
     return running, caps_lock, frame_index, animation_running, code, cursor_pos, mouse_coords, scroll_y_offset

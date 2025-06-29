@@ -2,7 +2,7 @@ from google.genai import types
 from Agentic_AI.base_agent import TracerAgent
 
 
-code_path = r"Agentic_AI\LLM_Files\test_case1.txt"
+code_path = r"Agentic_AI\LLM_Files\bst_testcase.txt"
 code_path_linux = r"Agentic_AI/LLM_Files/test_case1.txt"
 try:
     with open(code_path, "r") as file:

@@ -40,7 +40,7 @@ code = [""]
 current_frame_index = 0
 
 # Initialize Surfaces
-visualization_window = viz_window.create_viz_window(cfg.GREEN)
+visualization_window = viz_window.create_viz_window(cfg.VS_LIGHTBLUE)
 text_editor_surface = text_editor.surface(code, cursor_pos)
 text_window = basic_tiling_manager.create_text_window()
 

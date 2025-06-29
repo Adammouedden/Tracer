@@ -6,7 +6,26 @@ typedef struct LL{
 }node;
 
 
-nodeinitialize_node(int data){
+node *initialize_node(int data){
+    node* new_node = (node)malloc(sizeof(node));
+    new_node->next = NULL;
+    new_node->value = data;
+    return new_node;
+}
+
+int main(){
+
+    nodehead = initialize_node(0);
+    node temp = head;
+#include <stdlib.h>
+
+typedef struct LL{
+    struct LL next;
+    int value;
+}node;
+
+
+node *initialize_node(int data){
     node* new_node = (node)malloc(sizeof(node));
     new_node->next = NULL;
     new_node->value = data;
@@ -25,7 +44,14 @@ int main(){
 
     }
 
-    free(head);
+    return 0;
+}
+    for (int i = 1; i < 5; i++){
+        node *new_node = initialize_node(i);
+        temp->next = new_node;
+        temp = temp->next;
+
+    }
 
     return 0;
 }

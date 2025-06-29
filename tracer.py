@@ -23,7 +23,7 @@ os.environ['SDL_VIDEO_WINDOW_POS'] = '0, WINDOW_OFFSET'
 screen = pygame.display.set_mode((cfg.WIDTH, cfg.HEIGHT - cfg.WINDOW_OFFSET), pygame.RESIZABLE)
 pygame.display.set_caption("Tracer")
 clock = pygame.time.Clock()
-
+pygame.scrap.init()
 # Game Loop Logic
 #------------------------------------------------------------------------------------------------------------------------
 # Running Variables
@@ -36,12 +36,13 @@ mouse_coords = [0, 0]
 cursor_pos = [0, 0]   # Line number, character position
 
 # Initialize Game Variables
-code = [""]
+code = [""] * 50 #TODO: test scrolling with this
 current_frame_index = 0
+scroll_y_offset = 0
 
 # Initialize Surfaces
 visualization_window = viz_window.create_viz_window(cfg.GREEN)
-text_editor_surface = text_editor.surface(code, cursor_pos)
+text_editor_surface = text_editor.surface(code, cursor_pos, scroll_y_offset)
 text_window = basic_tiling_manager.create_text_window()
 
 
@@ -56,8 +57,8 @@ frame_index = 0
 while running:
     # Event handling
     for event in pygame.event.get():  
-        running, caps_lock, frame_index, animation_frames, code, cursor_pos, mouse_coords \
-        = handle_events(event, running, caps_lock, frame_index, number_of_animation_frames, animation_frames, code, cursor_pos, mouse_coords)
+        running, caps_lock, frame_index, animation_running, code, cursor_pos, mouse_coords, scroll_y_offset \
+        = handle_events(event, running, caps_lock, frame_index, number_of_animation_frames, animation_running, code, cursor_pos, mouse_coords, scroll_y_offset)
 
     
     number_of_animation_frames = len(animation_frames) if animation_frames else 0
@@ -65,7 +66,7 @@ while running:
     screen.fill(cfg.WHITE)
 
     # Remaking and drawing surface
-    text_editor_surface = text_editor.surface(code, cursor_pos)
+    text_editor_surface = text_editor.surface(code, cursor_pos, scroll_y_offset)
     text_editor.draw_text_editor_buttons(text_editor_surface)
     screen.blit(text_editor_surface, (0,0))
 

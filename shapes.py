@@ -5,12 +5,16 @@ import configs as cfg
 pygame.init()
 
 #Base Shapes
-def draw_text(surface, text: str, coordinates, font_size = 20, color = cfg.BLACK):
+def draw_text(surface, text: str, coordinates, font_size = 20, color = cfg.BLACK, orientation="left"):
     font = pygame.font.SysFont("ubuntu", font_size)
     text_surface = font.render(text, True, color)
     x, y = coordinates
     new_coordinates = (x, y)
-    text_rectangle = surface.get_rect(topleft=(new_coordinates))
+    if orientation == "left":
+        text_rectangle = surface.get_rect(topleft=(new_coordinates))
+    else:
+        text_rectangle = surface.get_rect(center=(new_coordinates))
+
     surface.blit(text_surface, text_rectangle)
 
 def draw_rectangle(surface, coordinates, rectangle_width, rectangle_height, border=0, color= cfg.BLACK):
@@ -84,7 +88,8 @@ def draw_arrow(surface, start_pos, end_pos, color=cfg.BLACK):
     draw_line(surface, end_pos, d_pos, color)
 
 def draw_circular_node(surface, value, center, radius, color=cfg.WHITE, width=0):
+    draw_text(surface, f"{value}", center, orientation="center")
     pygame.draw.circle(surface, color, center, radius, width)
-    draw_text(surface, f"{value}", center)
+    
 
 

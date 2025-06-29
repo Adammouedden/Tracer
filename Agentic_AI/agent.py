@@ -168,7 +168,7 @@ def declare_drawing_functions():
             }
         },
 
-        {
+        '''{
             "name": "draw_circular_node",
             "description": "This function creates a circular node to represent elements within data structures like trees, graphs, or circular linked lists. The node can be positioned at specific coordinates, and you can control the radius. The function is designed for visualizing connections between circular data structures, with optional animation for dynamic updates.",
             "parameters": 
@@ -210,17 +210,12 @@ def declare_drawing_functions():
                 },
                 "required": ["value", "center", "radius", "animation_frame"]
             }
-        }
+        }'''
     ]
     return functions
 
 
-<<<<<<< HEAD
 def gemini_tracer(api_key, input_code, backup_input=""):
-=======
-
-def gemini_tracer(api_key, backup_input=""):
->>>>>>> 6a7f9a0fbab503f49ceb490a39769e16c76fc896
     drawing_tools = [types.Tool(function_declarations=declare_drawing_functions())]
 
     sys_prompt = prompt + str(backup_input)

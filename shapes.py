@@ -83,10 +83,8 @@ def draw_arrow(surface, start_pos, end_pos, color=cfg.BLACK):
     draw_line(surface, end_pos, c_pos, color)
     draw_line(surface, end_pos, d_pos, color)
 
-def draw_circular_node(surface, value, center, radius, color=cfg.BLACK, width=1):
+def draw_circular_node(surface, value, center, radius, color=cfg.WHITE, width=0):
     pygame.draw.circle(surface, color, center, radius, width)
-    text_circle = surface.get_rect(center=(center))
-    font = pygame.font.SysFont(cfg.font, cfg.font_size)
-    text_surface = font.render(f"{value}", True, color)
-    surface.blit(text_surface, text_circle)
+    draw_text(surface, f"{value}", center)
+
 

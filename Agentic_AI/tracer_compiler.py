@@ -1,4 +1,4 @@
-from Agentic_AI.agent import gemini_tracer, double_check
+from Agentic_AI.agent import gemini_tracer, double_check, max_frames
 import shapes
 
 from dotenv import load_dotenv
@@ -13,7 +13,7 @@ def build_animation_frames():
     initial_functions = str(initial_functions)
     functions = double_check(api_key, initial_functions)
     
-    animation_frames = [[] for _ in range(21)]
+    animation_frames = [[] for _ in range(max_frames)]
     frame_index = 0
 
     for fn in functions:

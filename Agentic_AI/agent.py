@@ -2,7 +2,7 @@ from google.genai import types
 from Agentic_AI.base_agent import TracerAgent
 
 
-code_path = r"Agentic_AI\LLM_Files\bst_testcase.txt"
+code_path = r"Agentic_AI\LLM_Files\test_case1.txt"
 code_path_linux = r"Agentic_AI/LLM_Files/test_case1.txt"
 try:
     with open(code_path, "r") as file:
@@ -19,6 +19,8 @@ try:
 except:
     with open(prompt_path_linux, "r") as file:
         prompt = file.read()
+
+max_frames = 30
 
 
 #This function declares the drawing functions in the OpenAPI Schema, which is what Gemini requires for it's configuration
@@ -78,9 +80,9 @@ def declare_drawing_functions():
                     "animation_frame": 
                     {
                         "type": "number",
-                        "description": "You can group drawings into frames! Sequentially group your drawings together to visualize each line of code. You must use all 20 animation frames.",
+                        "description": "You can group drawings into frames! Sequentially group your drawings together to visualize each line of code. You must use all {max_frames} animation frames.",
                         "minimum":0,
-                        "maximum": 20,
+                        "maximum": max_frames,
                     },
                 },
                 "required": ["value", "coordinates", "rectangle_width", "rectangle_height", "error", "highlight", "animation_frame"]
@@ -122,9 +124,9 @@ def declare_drawing_functions():
                     "animation_frame": 
                     {
                         "type": "number",
-                        "description": "You can group drawings into frames! Sequentially group your drawings together to visualize each line of code, You must use all 20 animation frames.",
+                        "description": f"You can group drawings into frames! Sequentially group your drawings together to visualize each line of code, You must use all {max_frames} animation frames.",
                         "minimum":0,
-                        "maximum": 20,
+                        "maximum": max_frames,
                     },
                 },
                 "required": ["text", "coordinates", "font_size", "animation_frame"]
@@ -160,9 +162,9 @@ def declare_drawing_functions():
                     "animation_frame": 
                     {
                         "type": "number",
-                        "description": "You can group drawings into frames! Sequentially group your drawings together to visualize each line of code. You must use all 20 animation frames.",
+                        "description": f"You can group drawings into frames! Sequentially group your drawings together to visualize each line of code. You must use all {max_frames} animation frames.",
                         "minimum":0,
-                        "maximum": 20,
+                        "maximum": max_frames,
                     },
                 },
                 "required": ["start_pos", "end_pos", "animation_frame"]
@@ -196,14 +198,16 @@ def declare_drawing_functions():
                     {
                         "type": "number",
                         "description": "The radius of the circular node.",
+                        "minimum":50,
+                        "maximum":150
                     },
 
                     "animation_frame": 
                     {
                         "type": "number",
-                        "description": "You can group drawings into frames! Sequentially group your drawings together to visualize each line of code. You must use all 20 animation frames.",
+                        "description": "You can group drawings into frames! Sequentially group your drawings together to visualize each line of code. You must use all {max_frames} animation frames.",
                         "minimum":0,
-                        "maximum": 20,
+                        "maximum": max_frames,
                     },
                 },
                 "required": ["value", "center", "radius", "animation_frame"]
@@ -266,7 +270,6 @@ def double_check(api_key, function_calls: str):
 
     
     
-
 if __name__ == '__main__':
     from dotenv import load_dotenv
     import os

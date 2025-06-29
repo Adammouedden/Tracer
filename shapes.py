@@ -5,8 +5,9 @@ import configs as cfg
 pygame.init()
 
 #Base Shapes
-def draw_text(surface, text: str, coordinates, font_size = 20, color = cfg.BLACK):
+def draw_text(surface, text: str, coordinates, font_size = 20, color = cfg.VS_OFF_WHITE):
     font = pygame.font.SysFont("ubuntu", font_size)
+    #font = pygame.font.Font("C:/Windows/Fonts/consola.ttf", font_size) 
     text_surface = font.render(text, True, color)
     x, y = coordinates
     new_coordinates = (x, y)

@@ -19,7 +19,7 @@ pygame.init()
 
 # Screen Variables
 os.environ['SDL_VIDEO_WINDOW_POS'] = '0, WINDOW_OFFSET'
-screen = pygame.display.set_mode((cfg.WIDTH, cfg.HEIGHT - cfg.WINDOW_OFFSET))
+screen = pygame.display.set_mode((cfg.WIDTH, cfg.HEIGHT - cfg.WINDOW_OFFSET), pygame.RESIZABLE)
 pygame.display.set_caption("Tracer")
 clock = pygame.time.Clock()
 
@@ -69,7 +69,7 @@ while running:
     parse_function_calls(visualization_window, text_window, current_frame)
     screen.blit(visualization_window, (cfg.VIZ_WINDOW_STARTING_COORDINATES))
     visualization_window.blit(text_window, (0,cfg.VIZ_WINDOW_HEIGHT))
-    text_window.fill(cfg.BLUE)
+    text_window.fill(cfg.VS_BLACK)
 
     # Flipping the display
     pygame.display.update()

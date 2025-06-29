@@ -20,12 +20,20 @@ BLACK = (0, 0, 0)
 RED = (255, 0, 0)
 BLUE = (0, 0, 255)
 GREEN = (0, 255, 0)
+
+#VISUAL STUDIO COLORS
+VS_GREY = (31, 31, 31)
+VS_LIGHT_GREY = (67, 67, 67)
+VS_BLACK = (24, 24, 24)
+VS_OFF_WHITE = (172, 172, 172)
+
 HIGHLIGHT_YELLOW = (255, 255, 0, 100)
 HIGHLIGHT_RED = (255, 0, 0, 100)
 
 # Fonts
 font_size = 100
-font = pygame.font.SysFont("ubuntu", font_size)
+font = pygame.font.SysFont("Ubuntu", font_size)
+#font = pygame.font.Font("C:/Windows/Fonts/consola.ttf", font_size)
 text_offset = 5
 
 # Button sizing

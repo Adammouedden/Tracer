@@ -11,9 +11,10 @@ text_offset = 5
 
 def surface(code, cursor_pos):
     text_editor_surface = pygame.Surface((cfg.TEXT_EDITOR_WIDTH, cfg.HEIGHT))
-    text_editor_surface.fill(cfg.BLACK)
+    text_editor_surface.fill(cfg.VS_GREY)
     
     font = pygame.font.SysFont("ubuntu", font_size)
+    #font = pygame.font.Font("C:/Windows/Fonts/consola.ttf", font_size) 
 
     # Render each line of code
     for i, line in enumerate(code):
@@ -26,5 +27,27 @@ def surface(code, cursor_pos):
 
     for buttons in text_editor_buttons:
         buttons.draw(text_editor_surface)
+
+    # Drawing the scrollbar
+    # Outer line of scrollbar
+    scrollbar_surface = pygame.Surface((20, cfg.HEIGHT))
+    scrollbar_surface.fill(cfg.BLACK)
+    scrollbar_rect = pygame.Rect(cfg.TEXT_EDITOR_WIDTH-20, 0, 20, cfg.HEIGHT)
+    text_editor_surface.blit(scrollbar_surface, scrollbar_rect.topleft)
+    
+    # Inner fill of scrollbar
+    scrollbar_surface = pygame.Surface((18, cfg.HEIGHT-2))
+    scrollbar_surface.fill(cfg.VS_GREY)
+    scrollbar_rect = pygame.Rect(cfg.TEXT_EDITOR_WIDTH-19, 1, 18, cfg.HEIGHT-2)
+    text_editor_surface.blit(scrollbar_surface, scrollbar_rect.topleft)
+
+    # Scrollbar thumb
+    visible_lines = cfg.HEIGHT // font.get_height()
+    total_lines = len(code)
+    thumb_height = cfg.HEIGHT
+
+    thumb_rect = pygame.Rect(cfg.TEXT_EDITOR_WIDTH - 19, 0, 18, int(thumb_height))
+    pygame.draw.rect(text_editor_surface, cfg.VS_LIGHT_GREY, thumb_rect)
+
 
     return text_editor_surface

@@ -6,13 +6,11 @@ pygame.init()
 
 # Screen Variables
 screen_info = pygame.display.Info()
+WINDOW_OFFSET = 80
 WIDTH = screen_info.current_w
 HEIGHT = screen_info.current_h
-WINDOW_OFFSET = 80
-FPS = sys.maxsize  # Set FPS to maximum possible value
 
-screen = pygame.display.set_mode((WIDTH, HEIGHT - WINDOW_OFFSET))
-pygame.display.set_caption("Tracer") # Set the window title
+FPS = sys.maxsize  # Set FPS to maximum possible value
 
 # Colors
 WHITE = (255, 255, 255)
@@ -40,7 +38,7 @@ text_offset = 5
 button_width = 50
 button_height = 50 
 button_spacing = 60 
-
+button_margin = 15
 
 # Shape Dimensions
 line_width = 3
@@ -48,12 +46,10 @@ arrow_head_distance = 15
 
 #Text Editor Dimensions
 TEXT_EDITOR_WIDTH = WIDTH * 0.3
-TEXT_EDITOR_WIDTH = WIDTH * 0.3
 
 #Viz window dimensions
 VIZ_WINDOW_WIDTH = WIDTH - TEXT_EDITOR_WIDTH
-VIZ_WINDOW_HEIGHT = int((HEIGHT - WINDOW_OFFSET) * 0.7)
-
+VIZ_WINDOW_HEIGHT = int((HEIGHT - WINDOW_OFFSET) * 0.9)
 
 VIZ_WINDOW_STARTING_X = TEXT_EDITOR_WIDTH
 VIZ_WINDOW_STARTING_Y = 0

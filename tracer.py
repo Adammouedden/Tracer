@@ -13,6 +13,7 @@ import viz_window
 from buttons import all_buttons
 from Agentic_AI.tracer_compiler import build_animation_frames, parse_function_calls
 import basic_tiling_manager
+import shapes
 
 # Pygame Initialization
 pygame.init()
@@ -44,8 +45,9 @@ text_editor_surface = text_editor.surface(code, cursor_pos)
 text_window = basic_tiling_manager.create_text_window()
 
 
+
 #BUILD ANIMATION FRAMES
-animation_frames = build_animation_frames()
+animation_frames = build_animation_frames(code)
 print(animation_frames)
 number_of_animation_frames = len(animation_frames)
 frame_index = 0
@@ -62,14 +64,23 @@ while running:
 
     # Remaking and drawing surface
     text_editor_surface = text_editor.surface(code, cursor_pos)
+    text_editor.draw_text_editor_buttons(text_editor_surface)
     screen.blit(text_editor_surface, (0,0))
 
+ 
     #Draw the animation current frame's functions to the screen
     current_frame = animation_frames[frame_index]
     parse_function_calls(visualization_window, text_window, current_frame)
+    
+
+    #Drawing the visualization window
     screen.blit(visualization_window, (cfg.VIZ_WINDOW_STARTING_COORDINATES))
+
+    #Drawing the text window
     visualization_window.blit(text_window, (0,cfg.VIZ_WINDOW_HEIGHT))
     text_window.fill(cfg.VS_BLACK)
+
+    viz_window.draw_viz_buttons(visualization_window)
 
     # Flipping the display
     pygame.display.update()

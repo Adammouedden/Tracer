@@ -6,7 +6,6 @@ from buttons import all_buttons
 pygame.init()
 
 def handle_events(event, running, caps_lock, frame_index, number_of_animation_frames, animation_running, code, cursor_pos, mouse_coords):
-    scrap.init()
     if event.type == pygame.QUIT:
         running = False 
 
@@ -24,7 +23,9 @@ def handle_events(event, running, caps_lock, frame_index, number_of_animation_fr
             print("Mouse wheel scrolled down at", mouse_coords)
             
         for buttons in all_buttons:
-            buttons.handleEvent(event)
+            print(f"(OG) Frame: {frame_index}/{number_of_animation_frames}")
+
+            frame_index = buttons.handleEvent(event, frame_index, number_of_animation_frames)  # Pass frame_index
 
     elif event.type == pygame.KEYDOWN:
 
@@ -53,7 +54,6 @@ def handle_events(event, running, caps_lock, frame_index, number_of_animation_fr
                 if cursor_pos[0] > 0:
                     cursor_pos[0] -= 1
                     cursor_pos[1] = len(code[cursor_pos[0]])  # Move to the end of the previous line
-            #frame_index = (frame_index - 1) % number_of_animation_frames
         elif event.key == pygame.K_RIGHT:
             if cursor_pos[1] < len(code[cursor_pos[0]]):
                 cursor_pos[1] += 1  # Move cursor right
@@ -61,7 +61,6 @@ def handle_events(event, running, caps_lock, frame_index, number_of_animation_fr
                 if cursor_pos[0] < len(code) - 1:
                     cursor_pos[0] += 1
                     cursor_pos[1] = 0  # Move to the start of the next line
-            #frame_index = (frame_index + 1) % number_of_animation_frames
         elif event.key == pygame.K_RETURN:
             if cursor_pos[1] < len(code[cursor_pos[0]]):
                 # Split the current line at the cursor position
@@ -82,7 +81,7 @@ def handle_events(event, running, caps_lock, frame_index, number_of_animation_fr
                     code = code[:cursor_pos[0]-1] + [code[cursor_pos[0]-1] + code[cursor_pos[0]]] + code[cursor_pos[0]+1:]
                     #RESET CURSOR POSITION
                     cursor_pos[0] = cursor_pos[0] - 1
-                    cursor_pos[1] = length_of_previous_line  # Move to the end of the previous line
+                    cursor_pos[1] = length_of_previous_line  # Move to the end of the previous line""
 
             # If the cursor is not at the start of the line, just move the cursor back
             else:

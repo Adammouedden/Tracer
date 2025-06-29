@@ -82,3 +82,9 @@ def draw_arrow(surface, start_pos, end_pos, color=cfg.BLACK):
     
     draw_line(surface, end_pos, c_pos, color)
     draw_line(surface, end_pos, d_pos, color)
+
+def draw_circular_node(surface, value, center, radius, color=cfg.WHITE, width=0):
+    pygame.draw.circle(surface, color, center, radius, width)
+    draw_text(surface, f"{value}", center)
+
+

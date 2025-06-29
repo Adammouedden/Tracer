@@ -36,8 +36,6 @@ class Button:
             if self.action:
                 self.action()
 
-
-
 # Button functions
 def runCode():
     print("run code pressed")
@@ -49,34 +47,41 @@ def viz_forward():
 def viz_backward():
     print("backVis Pressed")
 
+VERTICAL_OFFSET_FROM_BOTTOM = 10
+
 # Button instances
 runButton = Button(
-    x = 510,
-    y = 1060,
-    width = cfg.button_width, height= cfg.button_height,
-    icon_char = "P", # Play icon
-    color = cfg.WHITE, hover_color=cfg.HIGHLIGHT_YELLOW,
+    x = cfg.TEXT_EDITOR_WIDTH - cfg.button_width -  cfg.button_margin,# Right edge of text editor area - button width - margin
+    y = cfg.HEIGHT - cfg.WINDOW_OFFSET - cfg.button_height - cfg.button_margin, # Bottom of screen - offset - button height - margin
+    width = cfg.button_width,
+    height = cfg.button_height,
+    icon_char = "R", # Play icon
+    color = cfg.WHITE,
+    hover_color = cfg.HIGHLIGHT_YELLOW,
     action = runCode
 )
 
 forwardButton = Button(
-    x = 1200,
-    y = 1050,
-    width = cfg.button_width, height = cfg.button_height,
-    icon_char = "N", # Play icon
-    color = cfg.WHITE, hover_color=cfg.HIGHLIGHT_YELLOW,
+    x = cfg.VIZ_WINDOW_STARTING_X + cfg.VIZ_WINDOW_WIDTH - cfg.button_width - cfg.button_margin, # Right edge of viz window - button width - margin
+    y = cfg.VIZ_WINDOW_HEIGHT - cfg.button_height - cfg.button_margin - VERTICAL_OFFSET_FROM_BOTTOM, # Bottom of viz window - button height - margin - offset
+    width = cfg.button_width,
+    height = cfg.button_height,
+    icon_char = "F", # Forward icon
+    color = cfg.WHITE,
+    hover_color = cfg.HIGHLIGHT_YELLOW,
     action = viz_forward
 )
 
 backButton = Button(
-    x = 1270,
-    y = 1050,
-    width = cfg.button_width, height= cfg.button_height,
-    icon_char = "B", # Play icon
-    color = cfg.WHITE, hover_color=cfg.HIGHLIGHT_YELLOW,
+    x = forwardButton.rect.x - cfg.button_width - cfg.button_spacing, # Left of forward button - its width - spacing
+    y = forwardButton.rect.y, # Same vertical position as forward button
+    width = cfg.button_width,
+    height = cfg.button_height,
+    icon_char = "B", # Backward icon
+    color = cfg.WHITE,
+    hover_color = cfg.HIGHLIGHT_YELLOW,
     action = viz_backward
 )
-
 
 text_editor_buttons = [runButton]
 viz_window_buttons = [forwardButton, backButton]

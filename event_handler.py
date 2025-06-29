@@ -52,7 +52,7 @@ def handle_events(event, running, caps_lock, frame_index, number_of_animation_fr
                 if cursor_pos[0] > 0:
                     cursor_pos[0] -= 1
                     cursor_pos[1] = len(code[cursor_pos[0]])  # Move to the end of the previous line
-            #frame_index = (frame_index - 1) % number_of_animation_frames
+            frame_index = (frame_index - 1) % number_of_animation_frames
         elif event.key == pygame.K_RIGHT:
             if cursor_pos[1] < len(code[cursor_pos[0]]):
                 cursor_pos[1] += 1  # Move cursor right
@@ -60,7 +60,7 @@ def handle_events(event, running, caps_lock, frame_index, number_of_animation_fr
                 if cursor_pos[0] < len(code) - 1:
                     cursor_pos[0] += 1
                     cursor_pos[1] = 0  # Move to the start of the next line
-            #frame_index = (frame_index + 1) % number_of_animation_frames
+            frame_index = (frame_index + 1) % number_of_animation_frames
         elif event.key == pygame.K_RETURN:
             if cursor_pos[1] < len(code[cursor_pos[0]]):
                 # Split the current line at the cursor position

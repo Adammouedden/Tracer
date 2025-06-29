@@ -13,7 +13,7 @@ def build_animation_frames(input_code):
     initial_functions = str(initial_functions)
     functions = double_check(api_key, input_code, initial_functions)
     
-    animation_frames = [[] for _ in range(max_frames)]
+    animation_frames = [[] for _ in range(max_frames + 1)]
     frame_index = 0
 
     for fn in functions:

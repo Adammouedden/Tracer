@@ -167,50 +167,6 @@ def declare_drawing_functions():
                 "required": ["start_pos", "end_pos", "animation_frame"]
             }
         },
-
-        '''{
-            "name": "draw_circular_node",
-            "description": "This function creates a circular node to represent elements within data structures like trees, graphs, or circular linked lists. The node can be positioned at specific coordinates, and you can control the radius. The function is designed for visualizing connections between circular data structures, with optional animation for dynamic updates.",
-            "parameters": 
-            {
-                "type": "object",
-                "properties": 
-                {
-                    "value": 
-                    {
-                        "type": "number",
-                        "description": "The value held within the node, typically representing data in tree or graph structures.",
-                        "minimum": 0
-                    },
-                    
-                    "center": 
-                    {
-                        "type": "array",
-                        "description": "The (x, y) coordinates for the center of the circular node, determining its position on the screen.",
-                        "items": {"type": "number"},
-                        "minItems": 2,
-                        "maxItems": 2
-                    },
-
-                    "radius": 
-                    {
-                        "type": "number",
-                        "description": "The radius of the circular node, determining the node's size. The minimum radius is 50 pixels to ensure visibility, and the maximum is 150 pixels.",
-                        "minimum": 15,
-                        "maximum": 50
-                    },
-
-                    "animation_frame": 
-                    {
-                        "type": "number",
-                        "description": "Determines which frame the circular node should be drawn in, allowing for step-by-step animation of the data structure’s creation or traversal. Complete all {max_frames} frames to visualize the flow of logic.",
-                        "minimum": 0,
-                        "maximum": max_frames,
-                    },
-                },
-                "required": ["value", "center", "radius", "animation_frame"]
-            }
-        }'''
     ]
     return functions
 
@@ -253,7 +209,8 @@ def double_check(api_key, input_code, function_calls: str):
         temperature=1.7
     )
 
-    contents = types.Content(role="user", parts=[types.Part(text=function_calls)])
+    input = str(function_calls) + str(input_code)
+    contents = types.Content(role="user", parts=[types.Part(text=input)])
 
     response = BackUp.trace(contents, config, model="gemini-2.0-flash-lite")
     file_path = "Agentic_AI\LLM_Files\logic_tweaks.txt"

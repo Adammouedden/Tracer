@@ -24,13 +24,6 @@ def surface(code, cursor_pos):
         cursor_rect = pygame.Rect(OFFSET+font.size(code[cursor_pos[0]][:cursor_pos[1]])[0], OFFSET + 5 + (cursor_pos[0]*(font_size+text_offset)), 2, font_size)
         pygame.draw.rect(text_editor_surface, cfg.GREEN, cursor_rect)
 
-    return text_editor_surface
-
-def draw_text_editor_buttons(surface):
-    for buttons in text_editor_buttons:
-        buttons.draw(surface)
-
-
     # Drawing the scrollbar
     # Outer line of scrollbar
     scrollbar_surface = pygame.Surface((20, cfg.HEIGHT))
@@ -52,5 +45,8 @@ def draw_text_editor_buttons(surface):
     thumb_rect = pygame.Rect(cfg.TEXT_EDITOR_WIDTH - 19, 0, 18, int(thumb_height))
     pygame.draw.rect(text_editor_surface, cfg.VS_LIGHT_GREY, thumb_rect)
 
-
     return text_editor_surface
+
+def draw_text_editor_buttons(surface):
+    for buttons in text_editor_buttons:
+        buttons.draw(surface)

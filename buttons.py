@@ -33,29 +33,38 @@ class Button:
 
         surface.blit(icon_surface, icon_rect)
 
-    def handleEvent(self, event, frame_index, number_of_animation_frames):
+    def handleEvent(self, event, frame_index, number_of_animation_frames, code):
         mouse_pos = pygame.mouse.get_pos()
-        mouse_pos = (mouse_pos[0]-cfg.TEXT_EDITOR_WIDTH, mouse_pos[1])
+        if self.action == "viz_forward" or self.action == "viz_backward":
+            mouse_pos = (mouse_pos[0]-cfg.TEXT_EDITOR_WIDTH, mouse_pos[1])
         print(f"mouse pos: {mouse_pos} self rect: {self.rect} collide: {self.rect.collidepoint(mouse_pos)}")
         if self.rect.collidepoint(mouse_pos):
-            if self.action:
+            print(f"Button {self.icon_char} clicked at {mouse_pos}")
+            if self.action == "viz_forward" or self.action == "viz_backward":
                 print(f"Frame: {frame_index}/{number_of_animation_frames}")
 
-                frame_index = self.action(frame_index, number_of_animation_frames)  # Pass dummy values for now
-        return frame_index
+                frame_index = self.action(frame_index, number_of_animation_frames, code)  # Pass dummy values for now
+                return frame_index
+            else:
+                #Turn code into 1D
+                single_string = "\n".join(code)
+                animation_frames = self.action(single_string)
+                print(f"Animation frames built: {len(animation_frames)}")
+            return animation_frames
 
 # Button functions
-def runCode(frame_index, number_of_animation_frames):
-    print("Run Code Pressed")
+def runCode(code):
+    animation_frames = build_animation_frames(code)
+    return animation_frames
 
 def viz_forward(frame_index, number_of_animation_frames):
-    print(f"Frame: {frame_index}/{number_of_animation_frames}")
+    #print(f"Frame: {frame_index}/{number_of_animation_frames}")
     frame_index = (frame_index + 1) % number_of_animation_frames
     
     return frame_index
 
 def viz_backward(frame_index, number_of_animation_frames):
-    print(f"Frame: {frame_index}/{number_of_animation_frames}")
+    #print(f"Frame: {frame_index}/{number_of_animation_frames}")
     frame_index = (frame_index - 1) % number_of_animation_frames
     return frame_index
 

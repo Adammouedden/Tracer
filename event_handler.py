@@ -5,7 +5,16 @@ from buttons import all_buttons
 # Pygame Initialization
 pygame.init()
 
-def handle_events(event, running, caps_lock, frame_index, number_of_animation_frames, animation_running, code, cursor_pos, mouse_coords):
+def handle_events(event, running, caps_lock, frame_index, number_of_animation_frames, animation_running, code, cursor_pos, mouse_coords, scroll_y_offset):
+    # --- CALCULATE SCROLL LIMITS ---
+    # We need to know the max scroll value to avoid scrolling past the end of the code.
+    # This calculation should ideally be done once, but for simplicity, we do it here.
+    font_size = 24
+    text_offset = 5
+    line_height = font_size + text_offset
+    visible_lines = int(cfg.HEIGHT / line_height)
+    max_scroll = max(0, len(code) - visible_lines)
+
     if event.type == pygame.QUIT:
         running = False 
 
@@ -13,6 +22,15 @@ def handle_events(event, running, caps_lock, frame_index, number_of_animation_fr
         mouse_coords = pygame.mouse.get_pos()
 
     elif event.type == pygame.MOUSEBUTTONDOWN:
+        # --- SCROLL WHEEL LOGIC ---
+        if event.button == 4:  # Scroll up
+            scroll_y_offset = max(0, scroll_y_offset - 1) # Decrease offset, but not below 0
+            print(f"Scrolled up. Offset: {scroll_y_offset}")
+        elif event.button == 5:  # Scroll down
+            scroll_y_offset = min(max_scroll, scroll_y_offset + 1) # Increase offset, but not past max
+            print(f"Scrolled down. Offset: {scroll_y_offset}")
+
+         # --- (Other mouse button logic) ---
         if event.button == 1:  # Left mouse button
             print("Left mouse button clicked at", mouse_coords)
         elif event.button == 3:  # Right mouse button
@@ -23,12 +41,38 @@ def handle_events(event, running, caps_lock, frame_index, number_of_animation_fr
             print("Mouse wheel scrolled down at", mouse_coords)
             
         for buttons in all_buttons:
-            print(f"(OG) Frame: {frame_index}/{number_of_animation_frames}")
+            #print(f"(OG) Frame: {frame_index}/{number_of_animation_frames}")
+            #frame_index = buttons.handleEvent(event, frame_index, number_of_animation_frames)  # Pass frame_index
 
-            frame_index = buttons.handleEvent(event, frame_index, number_of_animation_frames)  # Pass frame_index
+            match buttons.icon_char:
+                case "B":
+                    frame_index = buttons.handleEvent(event, frame_index, number_of_animation_frames, code) 
+                
+                case "F":
+                    frame_index = buttons.handleEvent(event, frame_index, number_of_animation_frames, code) 
+
+                case "R":
+                    print(f"FRAME: {frame_index}, NUM OF ANIM: {number_of_animation_frames}, CODE: {code}")
+                    animation_frames = buttons.handleEvent(event, frame_index, number_of_animation_frames, code)
+                    print(animation_frames)
+                
 
     elif event.type == pygame.KEYDOWN:
-
+        # --- SCROLL KEYBOARD LOGIC ---
+        if event.mod & pygame.KMOD_CTRL: # Check if Control key is held down
+            if event.key == pygame.K_UP:
+                scroll_y_offset = max(0, scroll_y_offset - 1)
+                print(f"CTRL+UP. Offset: {scroll_y_offset}")
+                # We add a return here to prevent the regular K_UP from also firing
+                return running, caps_lock, frame_index, animation_running, code, cursor_pos, mouse_coords, scroll_y_offset
+            
+            if event.key == pygame.K_DOWN:
+                scroll_y_offset = min(max_scroll, scroll_y_offset + 1)
+                print(f"CTRL+DOWN. Offset: {scroll_y_offset}")
+                # We add a return here to prevent the regular K_DOWN from also firing
+                return running, caps_lock, frame_index, animation_running, code, cursor_pos, mouse_coords, scroll_y_offset
+            
+        # --- (Rest of your KEYDOWN logic) ---
         '''
         if event.key == pygame.K_PAGEUP:
             frame_index = (frame_index + 1) % number_of_animation_frames
@@ -41,10 +85,16 @@ def handle_events(event, running, caps_lock, frame_index, number_of_animation_fr
             running = False
         elif event.key == pygame.K_UP:
             if cursor_pos[0] > 0:
+                # When moving the cursor, make sure the view scrolls if needed!
+                if cursor_pos[0] - 1 < scroll_y_offset:
+                    scroll_y_offset = cursor_pos[0] - 1
                 cursor_pos[0] -= 1  # Move cursor up
                 cursor_pos[1] = min(cursor_pos[1], len(code[cursor_pos[0]]))
         elif event.key == pygame.K_DOWN:
             if cursor_pos[0] < len(code) - 1:
+                # When moving the cursor, make sure the view scrolls if needed!
+                if cursor_pos[0] + 1 >= scroll_y_offset + visible_lines:
+                     scroll_y_offset = cursor_pos[0] - visible_lines + 2
                 cursor_pos[0] += 1  # Move cursor down
                 cursor_pos[1] = min(cursor_pos[1], len(code[cursor_pos[0]]))
         elif event.key == pygame.K_LEFT:
@@ -140,4 +190,5 @@ def handle_events(event, running, caps_lock, frame_index, number_of_animation_fr
             code[cursor_pos[0]] = code[cursor_pos[0]][:cursor_pos[1]] + event.unicode + code[cursor_pos[0]][cursor_pos[1]:]
             cursor_pos[1] += 1
 
-    return running, caps_lock, frame_index, animation_running, code, cursor_pos, mouse_coords
+
+    return running, caps_lock, frame_index, animation_running, code, cursor_pos, mouse_coords, scroll_y_offset

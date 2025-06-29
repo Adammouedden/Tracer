@@ -10,7 +10,7 @@ WINDOW_OFFSET = 80
 WIDTH = screen_info.current_w
 HEIGHT = screen_info.current_h
 
-FPS = sys.maxsize  # Set FPS to maximum possible value
+FPS = 60  # Set FPS to maximum possible value
 
 # Colors
 WHITE = (255, 255, 255)

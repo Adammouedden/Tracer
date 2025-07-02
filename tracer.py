@@ -63,16 +63,11 @@ while running:
         animation_frames, current_frame, run_pressed, frame_index = event_button_clicked(event, animation_frames, code, current_frame, run_pressed, frame_index)
         
     number_of_animation_frames = len(animation_frames) if animation_frames else 0
-    # Drawing Screen   
-
-    
-
-    #Debugging
-    #print(f"Current frame: {current_frame}, frame index: {frame_index}, run pressed {run_pressed}\n\n")
-
-        
+   
     parse_function_calls(visualization_window, text_window, current_frame)
-    
+    if number_of_animation_frames > 0:
+        shapes.draw_text(text_window, f"{frame_index}/{number_of_animation_frames}", (700,30), font_size=30, color=cfg.WHITE)
+        print(animation_frames)
     #Drawing the visualization window
     screen.blit(visualization_window, (cfg.VIZ_WINDOW_STARTING_COORDINATES))
     

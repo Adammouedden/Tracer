@@ -1,6 +1,6 @@
 from Agentic_AI.agent import gemini_tracer, double_check, max_frames
 import shapes
-
+import configs as cfg
 from dotenv import load_dotenv
 import os
 
@@ -26,14 +26,17 @@ def build_animation_frames(input_code):
 def parse_function_calls(viz_surface, text_surface, frame):
     if frame == None or frame == 0:
         return
+    text_count = 0
     for fn in frame:
         match fn.name:
-            case "draw_text":
+            case "draw_text" if text_count < 1:
                 text = fn.args["text"] 
                 coordinates = fn.args["coordinates"]
                 coordinates = (0,0)
                 font_size = fn.args["font_size"]
-                shapes.draw_text(text_surface, text, coordinates, font_size)
+                shapes.draw_text(text_surface, text, coordinates, font_size, color = cfg.WHITE)
+                text_count += 1
+                
                 
             case "draw_node":
                 value = fn.args["value"]

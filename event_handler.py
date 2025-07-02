@@ -1,11 +1,11 @@
 import pygame
 import pygame.scrap as scrap
 import configs as cfg
-from buttons import all_buttons
+from buttons import all_buttons, viz_window_buttons
 # Pygame Initialization
 pygame.init()
 
-def handle_events(event, running, caps_lock, frame_index, number_of_animation_frames, animation_running, code, cursor_pos, mouse_coords, scroll_y_offset):
+def handle_events(event, running, caps_lock, code, cursor_pos, mouse_coords, scroll_y_offset):
     # --- CALCULATE SCROLL LIMITS ---
     # We need to know the max scroll value to avoid scrolling past the end of the code.
     # This calculation should ideally be done once, but for simplicity, we do it here.
@@ -25,62 +25,28 @@ def handle_events(event, running, caps_lock, frame_index, number_of_animation_fr
         # --- SCROLL WHEEL LOGIC ---
         if event.button == 4:  # Scroll up
             scroll_y_offset = max(0, scroll_y_offset - 1) # Decrease offset, but not below 0
-            print(f"Scrolled up. Offset: {scroll_y_offset}")
+            #print(f"Scrolled up. Offset: {scroll_y_offset}")
         elif event.button == 5:  # Scroll down
             scroll_y_offset = min(max_scroll, scroll_y_offset + 1) # Increase offset, but not past max
-            print(f"Scrolled down. Offset: {scroll_y_offset}")
+            #print(f"Scrolled down. Offset: {scroll_y_offset}")
 
-         # --- (Other mouse button logic) ---
-        if event.button == 1:  # Left mouse button
-            print("Left mouse button clicked at", mouse_coords)
-        elif event.button == 3:  # Right mouse button
-            print("Right mouse button clicked at", mouse_coords)
-        elif event.button == 4:  # Scroll up
-            print("Mouse wheel scrolled up at", mouse_coords)
-        elif event.button == 5:  # Scroll down
-            print("Mouse wheel scrolled down at", mouse_coords)
-            
-        for buttons in all_buttons:
-            #print(f"(OG) Frame: {frame_index}/{number_of_animation_frames}")
-            #frame_index = buttons.handleEvent(event, frame_index, number_of_animation_frames)  # Pass frame_index
-
-            match buttons.icon_char:
-                case "B":
-                    frame_index = buttons.handleEvent(event, frame_index, number_of_animation_frames, code) 
-                
-                case "F":
-                    frame_index = buttons.handleEvent(event, frame_index, number_of_animation_frames, code) 
-
-                case "R":
-                    print(f"FRAME: {frame_index}, NUM OF ANIM: {number_of_animation_frames}, CODE: {code}")
-                    animation_frames = buttons.handleEvent(event, frame_index, number_of_animation_frames, code)
-                    print(animation_frames)
-                
 
     elif event.type == pygame.KEYDOWN:
         # --- SCROLL KEYBOARD LOGIC ---
         if event.mod & pygame.KMOD_CTRL: # Check if Control key is held down
             if event.key == pygame.K_UP:
                 scroll_y_offset = max(0, scroll_y_offset - 1)
-                print(f"CTRL+UP. Offset: {scroll_y_offset}")
+                #print(f"CTRL+UP. Offset: {scroll_y_offset}")
                 # We add a return here to prevent the regular K_UP from also firing
-                return running, caps_lock, frame_index, animation_running, code, cursor_pos, mouse_coords, scroll_y_offset
+                return running, caps_lock, code, cursor_pos, mouse_coords, scroll_y_offset
             
             if event.key == pygame.K_DOWN:
                 scroll_y_offset = min(max_scroll, scroll_y_offset + 1)
-                print(f"CTRL+DOWN. Offset: {scroll_y_offset}")
+                #print(f"CTRL+DOWN. Offset: {scroll_y_offset}")
                 # We add a return here to prevent the regular K_DOWN from also firing
-                return running, caps_lock, frame_index, animation_running, code, cursor_pos, mouse_coords, scroll_y_offset
+                return running, caps_lock, code, cursor_pos, mouse_coords, scroll_y_offset
             
         # --- (Rest of your KEYDOWN logic) ---
-        '''
-        if event.key == pygame.K_PAGEUP:
-            frame_index = (frame_index + 1) % number_of_animation_frames
-            print(f"Frame: {frame_index}/{number_of_animation_frames}")
-        if event.key == pygame.K_PAGEDOWN:
-            frame_index = (frame_index - 1) % number_of_animation_frames
-            print(f"Frame: {frame_index}/{number_of_animation_frames}")
-        '''
         if event.key == pygame.K_ESCAPE:
             running = False
         elif event.key == pygame.K_UP:
@@ -140,14 +106,14 @@ def handle_events(event, running, caps_lock, frame_index, number_of_animation_fr
                 cursor_pos[1] = max(0, cursor_pos[1] - 1)
         elif event.key == pygame.K_CAPSLOCK:
             caps_lock = not caps_lock
-        elif event.key == pygame.K_TAB:
-            print("Tab key pressed")
+        #elif event.key == pygame.K_TAB:
+            #print("Tab key pressed")
         
 
         # --- Copy/Paste/Cut Logic ---  
         elif (event.mod & pygame.KMOD_CTRL): # Check for Control key
             if event.key == pygame.K_c: # Letter C
-                print("CTRL + C pressed")
+                #print("CTRL + C pressed")
                 text_to_copy = ""
 
                 # Collect text to copy from code array
@@ -157,13 +123,13 @@ def handle_events(event, running, caps_lock, frame_index, number_of_animation_fr
                 
                 # Copy text to clipboard
                 pygame.scrap.put(pygame.SCRAP_TEXT, text_to_copy.encode('utf-8'))
-                print("Text copied to clipboard:", text_to_copy)
+                #print("Text copied to clipboard:", text_to_copy)
             elif event.key == pygame.K_v: # Letter V
                 clipboard_data = pygame.scrap.get(pygame.SCRAP_TEXT)
                 if clipboard_data:
                         try:
                             for t in pygame.scrap.get_types():
-                                print(f"DEBUG: Clipboard type: {t}\n")
+                                #print(f"DEBUG: Clipboard type: {t}\n")
 
                                 pasted_text = clipboard_data.decode('utf-8')
                                 pasted_text = pasted_text.replace('\x0d', '')  # Remove carriage return
@@ -191,4 +157,37 @@ def handle_events(event, running, caps_lock, frame_index, number_of_animation_fr
             cursor_pos[1] += 1
 
 
-    return running, caps_lock, frame_index, animation_running, code, cursor_pos, mouse_coords, scroll_y_offset
+    return running, caps_lock, code, cursor_pos, mouse_coords, scroll_y_offset
+
+def event_button_clicked(event, animation_frames, code, current_frame, run_pressed:bool, frame_index):
+    #Return if the button was not clicked
+    if event.type != pygame.MOUSEBUTTONDOWN or not code or all(line == "" for line in code):
+        return animation_frames, current_frame, run_pressed, frame_index
+    
+    for button in all_buttons:
+        mouse_pos = event.pos
+        
+        adjusted_mouse_pos = mouse_pos
+        if button.icon_char in ["F", "B"]:
+            adjusted_mouse_pos = (
+                mouse_pos[0] - cfg.VIZ_WINDOW_STARTING_X,
+                mouse_pos[1] - cfg.VIZ_WINDOW_STARTING_Y
+            )
+        
+        if button.rect.collidepoint(adjusted_mouse_pos):
+            if button.icon_char == "R":
+                frames = button.action("\n".join(code))
+                run_pressed = True
+                if frames:
+                    animation_frames = frames
+                    frame_index = 0
+                    current_frame = animation_frames[frame_index]
+                break
+            
+            elif run_pressed and (button.icon_char == "F" or button.icon_char == "B"):
+                if animation_frames:
+                    frame_index = button.action(frame_index, len(animation_frames))
+                    current_frame = animation_frames[frame_index]
+                break
+    return animation_frames, current_frame, run_pressed, frame_index
+    

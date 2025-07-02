@@ -24,16 +24,16 @@ def build_animation_frames(input_code):
 
 
 def parse_function_calls(viz_surface, text_surface, frame):
+    if frame == None or frame == 0:
+        return
     for fn in frame:
-        printing_text_count = 0
         match fn.name:
-            case "draw_text" if printing_text_count == 0:
+            case "draw_text":
                 text = fn.args["text"] 
                 coordinates = fn.args["coordinates"]
                 coordinates = (0,0)
                 font_size = fn.args["font_size"]
                 shapes.draw_text(text_surface, text, coordinates, font_size)
-                printing_text_count += 1
                 
             case "draw_node":
                 value = fn.args["value"]
@@ -42,7 +42,7 @@ def parse_function_calls(viz_surface, text_surface, frame):
                 rectangle_height = fn.args["rectangle_height"]
                 error = fn.args["error"]
                 highlight = fn.args["highlight"]
-                shapes.draw_node(viz_surface, value, coordinates, rectangle_width, rectangle_height)
+                shapes.draw_node(viz_surface, value, coordinates, rectangle_width, rectangle_height, error, highlight)
 
             case "draw_arrow":
                 start_pos = fn.args["start_pos"]

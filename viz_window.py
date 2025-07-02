@@ -17,4 +17,5 @@ def reset(surface, surface_color):
 
 def draw_viz_buttons(surface):
     for buttons in viz_window_buttons:
+        
         buttons.draw(surface)

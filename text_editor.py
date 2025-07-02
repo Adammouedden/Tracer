@@ -24,7 +24,7 @@ def surface(code, cursor_pos, scroll_y_offset):
 
         # Only draw the line if it's within the visible area of the surface
         if line_y_pos > -line_height and line_y_pos < cfg.HEIGHT:
-            shapes.draw_text(text_editor_surface, line, (OFFSET, line_y_pos), font_size, cfg.GREEN)
+            shapes.draw_text(text_editor_surface, line, (OFFSET, line_y_pos), font_size, cfg.VS_OFF_WHITE)
 
     # --- DRAW THE CURSOR ---
     if (pygame.time.get_ticks() % 1000 < 500):
@@ -39,7 +39,7 @@ def surface(code, cursor_pos, scroll_y_offset):
                 2, 
                 font_size
             )
-            pygame.draw.rect(text_editor_surface, cfg.GREEN, cursor_rect)
+            pygame.draw.rect(text_editor_surface, cfg.VS_OFF_WHITE, cursor_rect)
 
 
     # --- DRAW THE SCROLLBAR ---

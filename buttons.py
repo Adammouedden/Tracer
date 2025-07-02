@@ -8,7 +8,7 @@ class Button:
         self.icon_char = icon_char
         self.color = color
         self.current_color = color
-        self.hover_color = color
+        self.hover_color = hover_color
         self.action = action
 
         # Dynamically change the size
@@ -19,7 +19,15 @@ class Button:
 
     def draw(self, surface):
         mouse_pos = pygame.mouse.get_pos()
-        mouse_pos = (mouse_pos[0]-cfg.TEXT_EDITOR_WIDTH, mouse_pos[1])
+        
+        if self.icon_char in ["F", "B"]:
+            mouse_pos = (
+                mouse_pos[0] - cfg.VIZ_WINDOW_STARTING_X,
+                mouse_pos[1] - cfg.VIZ_WINDOW_STARTING_Y
+        )
+        else:    
+            mouse_pos = (mouse_pos[0]-cfg.TEXT_EDITOR_WIDTH, mouse_pos[1])
+            
         #print(f"mouse pos: {mouse_pos} self rect: {self.rect} collide: {self.rect.collidepoint(mouse_pos)}")
         if self.rect.collidepoint(mouse_pos):
             self.current_color = self.hover_color
@@ -35,21 +43,27 @@ class Button:
 
     def handleEvent(self, event, frame_index, number_of_animation_frames, code):
         mouse_pos = pygame.mouse.get_pos()
-        if self.action == "viz_forward" or self.action == "viz_backward":
-            mouse_pos = (mouse_pos[0]-cfg.TEXT_EDITOR_WIDTH, mouse_pos[1])
-        print(f"mouse pos: {mouse_pos} self rect: {self.rect} collide: {self.rect.collidepoint(mouse_pos)}")
-        if self.rect.collidepoint(mouse_pos):
-            print(f"Button {self.icon_char} clicked at {mouse_pos}")
-            if self.action == "viz_forward" or self.action == "viz_backward":
-                print(f"Frame: {frame_index}/{number_of_animation_frames}")
+        
+        if self.icon_char in ["F", "B"]:
+            mouse_pos = (
+                mouse_pos[0] - cfg.VIZ_WINDOW_STARTING_X,
+                mouse_pos[1] - cfg.VIZ_WINDOW_STARTING_Y
+            )
 
+        print(f"mouse pos: {mouse_pos} self rect: {self.rect} collide: {self.rect.collidepoint(mouse_pos)}")
+        
+        if self.rect.collidepoint(mouse_pos):
+            
+            print(f"Button {self.icon_char} clicked at {mouse_pos}")
+            if self.icon_char == "F" or self.icon_char == "B":
+                #print(f"Frame: {frame_index}/{number_of_animation_frames}")
                 frame_index = self.action(frame_index, number_of_animation_frames, code)  # Pass dummy values for now
                 return frame_index
             else:
                 #Turn code into 1D
                 single_string = "\n".join(code)
                 animation_frames = self.action(single_string)
-                print(f"Animation frames built: {len(animation_frames)}")
+                #print(f"Animation frames built: {len(animation_frames)}")
             return animation_frames
 
 # Button functions
@@ -59,8 +73,7 @@ def runCode(code):
 
 def viz_forward(frame_index, number_of_animation_frames):
     #print(f"Frame: {frame_index}/{number_of_animation_frames}")
-    frame_index = (frame_index + 1) % number_of_animation_frames
-    
+    frame_index = (frame_index + 1) % number_of_animation_frames 
     return frame_index
 
 def viz_backward(frame_index, number_of_animation_frames):
@@ -78,9 +91,10 @@ runButton = Button(
     height = cfg.button_height,
     icon_char = "R", # Play icon
     color = cfg.WHITE,
-    hover_color = cfg.HIGHLIGHT_YELLOW,
+    hover_color = cfg.VS_GREY,
     action = runCode
 )
+
 
 forwardButton = Button(
     x = cfg.VIZ_WINDOW_WIDTH - cfg.button_width - cfg.button_margin, # Right edge of viz window - button width - margin
@@ -89,7 +103,7 @@ forwardButton = Button(
     height = cfg.button_height,
     icon_char = "F", # Forward icon
     color = cfg.WHITE,
-    hover_color = cfg.HIGHLIGHT_YELLOW,
+    hover_color = cfg.VS_GREY,
     action = viz_forward
 )
 
@@ -100,10 +114,13 @@ backButton = Button(
     height = cfg.button_height,
     icon_char = "B", # Backward icon
     color = cfg.WHITE,
-    hover_color = cfg.HIGHLIGHT_YELLOW,
+    hover_color = cfg.VS_GREY,
     action = viz_backward
 )
 
 text_editor_buttons = [runButton]
 viz_window_buttons = [forwardButton, backButton]
 all_buttons = [runButton, forwardButton, backButton]
+
+
+
